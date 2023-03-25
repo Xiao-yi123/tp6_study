@@ -26,7 +26,7 @@ return [
             // 服务器地址
             'hostname'        => env('database.hostname', '192.168.146.133'),
             // 数据库名
-            'database'        => env('database.database', 'WeChatPay'),
+            'database'        => env('database.database', 'wechatpay'),
             // 用户名
             'username'        => env('database.username', 'WeChatPay'),
             // 密码
@@ -38,7 +38,7 @@ return [
             // 数据库编码默认采用utf8
             'charset'         => env('database.charset', 'utf8'),
             // 数据库表前缀
-            'prefix'          => env('database.prefix', ''),
+            'prefix'          => env('database.prefix', 'pay_'),
 
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
             'deploy'          => 0,

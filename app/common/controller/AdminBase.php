@@ -25,6 +25,7 @@ class AdminBase extends BaseController
      */
     protected function doLogin(array $data)
     {
+
         $userinfo = AdminModel::where("username", $data["user"])->find();
         //如果账号不存在
         if (!$userinfo){

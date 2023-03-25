@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "961342944451f7d815b3600f93fa5951",
+    "content-hash": "ba9e02184266272020466f04bbf89337",
     "packages": [
         {
             "name": "jiujiude/wechat-ecommerce-sdk",
@@ -318,6 +318,59 @@
                 "source": "https://github.com/top-think/framework/tree/v6.1.2"
             },
             "time": "2023-02-08T02:24:01+00:00"
+        },
+        {
+            "name": "topthink/think-captcha",
+            "version": "v3.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-captcha.git",
+                "reference": "52fba122c953995bec3013c635025172491ae299"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-captcha/zipball/52fba122c953995bec3013c635025172491ae299",
+                "reference": "52fba122c953995bec3013c635025172491ae299",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "think\\captcha\\CaptchaService"
+                    ],
+                    "config": {
+                        "captcha": "src/config.php"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "think\\captcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "captcha package for thinkphp",
+            "support": {
+                "issues": "https://github.com/top-think/think-captcha/issues",
+                "source": "https://github.com/top-think/think-captcha/tree/v3.0.8"
+            },
+            "time": "2022-10-26T07:59:42+00:00"
         },
         {
             "name": "topthink/think-helper",

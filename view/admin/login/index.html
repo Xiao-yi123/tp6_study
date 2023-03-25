@@ -38,21 +38,21 @@
                                         <input type="password" class="form-control" name="password" id="password" placeholder="管理员密码" required="" autocomplete="off">
                                         <label class="form-label" for="password">管理员密码</label>
                                     </div>
-                                    <div class="row mb-4">
-                                        <div class="col-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码">
-                                                <label class="form-label" for="captcha">验证码</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-floating">
-                                                <div onclick="recode()" style="cursor: pointer">
-                                                    <img id="code" class="border" src="{:captcha_src()}" alt="captcha"  height="58px;" width="100%">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+<!--                                    <div class="row mb-4">-->
+<!--                                        <div class="col-6">-->
+<!--                                            <div class="form-floating">-->
+<!--                                                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码">-->
+<!--                                                <label class="form-label" for="captcha">验证码</label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-6">-->
+<!--                                            <div class="form-floating">-->
+<!--                                                <div onclick="recode()" style="cursor: pointer">-->
+<!--                                                    <img id="code" class="border" src="{:captcha_src()}" alt="captcha"  height="58px;" width="100%">-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                     <div class="row">
                                         <div class="text-sm-end push">
                                             <button type="submit" id="submit" class="btn btn-lg btn-alt-primary fw-medium">
@@ -88,7 +88,7 @@
         let post_data       = {};
         post_data.user      = app.getval('#user');
         post_data.password  = app.getval('#password');
-        post_data.captcha   = app.getval('#captcha');
+        // post_data.captcha   = app.getval('#captcha');
 
         //判断表单是否有空
         if(!empty(post_data)){
@@ -133,10 +133,10 @@
             app.notify('管理员密码不能为空!', 'warning')
             return false;
         }
-        if (obj.captcha == '' || obj.captcha == null || obj.captcha == undefined){
-            app.notify('验证码不能为空!', 'warning')
-            return false;
-        }
+        // if (obj.captcha == '' || obj.captcha == null || obj.captcha == undefined){
+        //     app.notify('验证码不能为空!', 'warning')
+        //     return false;
+        // }
         return true;
     }
 </script>
