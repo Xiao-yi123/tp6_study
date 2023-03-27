@@ -21,7 +21,7 @@ return [
     // 是否使用混淆曲线
     'useCurve' => true,
     //是否添加杂点
-    'useNoise' => true,
+    'useNoise' => false,
     // 验证码字体 不设置则随机
     'fontttf'  => '',
     //背景颜色

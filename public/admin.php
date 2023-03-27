@@ -14,16 +14,20 @@ namespace think;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+
 //定义分隔符
 define('DS', DIRECTORY_SEPARATOR);
 
+//当前文件名
+define('ADMIN_NAME', basename(__FILE__)."/index");
 
 // 执行HTTP应用并响应
 $app = new App();
 $http = $app->http;
 
-//指定执行index应用
-$response = $http->name("index")->run();
+
+//指定执行admin应用
+$response = $http->name("admin")->run();
 
 $response->send();
 

@@ -1,10 +1,11 @@
-<html lang="zh-cn"><head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>管理后台 - 登录</title>
-    <link rel="stylesheet" id="css-main" href="__STATIC__/css/codebase.min-5.4.css">
-    <link rel="stylesheet" href="https://apis.zhian.pro/assets/js/theme/default/layer.css?v=3.5.1" id="layuicss-layer"></head>
-<body>
+{extend name="Base_template/login_base" /}
+
+{block name="head_css"}
+    <link rel="stylesheet" id="css-main" href="__STATIC_LOGIN__/css/codebase.min-5.4.css">
+<!--    弹出层组件-->
+<!--    <link rel="stylesheet" href="https://apis.zhian.pro/assets/js/theme/default/layer.css?v=3.5.1" id="layuicss-layer"></head>-->
+{/block}
+{block name="main"}
 <div id="page-container" class="main-content-boxed">
     <main id="main-container">
         <div class="bg-body-dark">
@@ -38,21 +39,21 @@
                                         <input type="password" class="form-control" name="password" id="password" placeholder="管理员密码" required="" autocomplete="off">
                                         <label class="form-label" for="password">管理员密码</label>
                                     </div>
-<!--                                    <div class="row mb-4">-->
-<!--                                        <div class="col-6">-->
-<!--                                            <div class="form-floating">-->
-<!--                                                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码">-->
-<!--                                                <label class="form-label" for="captcha">验证码</label>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-6">-->
-<!--                                            <div class="form-floating">-->
-<!--                                                <div onclick="recode()" style="cursor: pointer">-->
-<!--                                                    <img id="code" class="border" src="{:captcha_src()}" alt="captcha"  height="58px;" width="100%">-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
+                                    <div class="row mb-4">
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码">
+                                                <label class="form-label" for="captcha">验证码</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <div onclick="recode()" style="cursor: pointer">
+                                                    <img id="code" class="border" src="{:captcha_src()}" alt="captcha"  height="58px;" width="100%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="text-sm-end push">
                                             <button type="submit" id="submit" class="btn btn-lg btn-alt-primary fw-medium">
@@ -69,13 +70,17 @@
         </div>
     </main>
 </div>
-<script src="__STATIC__/js/lib/jquery.min.js"></script>
+
+{/block}
+
+{block name="body_js"}
+<script src="__STATIC_LOGIN__/js/lib/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
-<script src="__STATIC__/js/codebase.app.min-5.4.js"></script>
-<script src="__STATIC__/js/layer.js"></script>
+<script src="__STATIC_LOGIN__/js/codebase.app.min-5.4.js"></script>
+<script src="__STATIC_LOGIN__/js/layer.js"></script>
 <script src="https://cdn.staticfile.org/clipboard.js/2.0.11/clipboard.min.js"></script>
-<script src="__STATIC__/js/bootstrap-notify.min.js"></script>
-<script src="__STATIC__/js/app.js"></script>
+<script src="__STATIC_LOGIN__/js/bootstrap-notify.min.js"></script>
+<script src="__STATIC_LOGIN__/js/app.js"></script>
 
 <script>
     //页面加载完成后，每三分钟刷新一次验证码
@@ -88,7 +93,7 @@
         let post_data       = {};
         post_data.user      = app.getval('#user');
         post_data.password  = app.getval('#password');
-        // post_data.captcha   = app.getval('#captcha');
+        post_data.captcha   = app.getval('#captcha');
 
         //判断表单是否有空
         if(!empty(post_data)){
@@ -133,12 +138,11 @@
             app.notify('管理员密码不能为空!', 'warning')
             return false;
         }
-        // if (obj.captcha == '' || obj.captcha == null || obj.captcha == undefined){
-        //     app.notify('验证码不能为空!', 'warning')
-        //     return false;
-        // }
+        if (obj.captcha == '' || obj.captcha == null || obj.captcha == undefined){
+            app.notify('验证码不能为空!', 'warning')
+            return false;
+        }
         return true;
     }
 </script>
-
-</body></html>
+{/block}

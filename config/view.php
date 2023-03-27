@@ -25,6 +25,8 @@ return [
     //全局替换
     'tpl_replace_string' => [
         //全局静态文件目录
-        '__STATIC__'=>'/assets',
-    ]
+        '__STATIC_LOGIN__'=>'/assets',
+//        '__STATIC_ADMIN__'=>'/assets',
+        '__STATIC_ADMIN__'=>'/static/admin'
+    ],
 ];

@@ -31,6 +31,7 @@ return [
     // 显示错误信息
     'show_error_msg'   => false,
 
-
+//    是否启动多应用
     'auto_multi_app' => true,
+
 ];
