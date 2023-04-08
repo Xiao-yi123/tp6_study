@@ -3,7 +3,7 @@
 namespace app\common\controller;
 
 use app\BaseController; //框架控制器基类
-use app\admin\model\Admin as AdminModel; //admin模型
+use app\index\model\User as AdminModel; //admin模型
 use think\facade\Session;
 
 /**
@@ -40,7 +40,15 @@ class AdminBase extends BaseController
         Session::set("uid", $userinfo["id"]);
         return $userinfo;
     }
-
+    /**
+     * 退出登录
+     */
+    protected function doLogout()
+    {
+        Session::delete("Admin_Login");
+        Session::delete("uid",);
+        return true;
+    }
     /**
      * 根据id获取用户信息
      * @param $uid
@@ -53,4 +61,5 @@ class AdminBase extends BaseController
     {
         return AdminModel::where("id", $uid)->find();
     }
+
 }

@@ -17,8 +17,13 @@ class Index extends AdminBase
     {
         $uid = Session::get('uid');
         $userinfo = $this->getUserInfo($uid);
-//        return "欢迎 {$userinfo['nickname']} !";
+        $this->assign('username' , $userinfo['username']);
         return $this->fetch();
+    }
+    public function logout(Request $request)
+    {
+        $this -> doLogout();
+        return json(['status'=>1]);
     }
 
 }

@@ -14,12 +14,12 @@
 {block name="main"}
 <div class="x-body">
     <blockquote class="layui-elem-quote">
-        <sapn>admin</sapn>欢迎使用后台管理系统！
+        <sapn>{$username}</sapn>欢迎使用后台管理系统！
         <span class="f-14">v1.0</span> &nbsp;&nbsp; 登录次数：
         <sapn style="font-family: 'yjsz';font-size: 2rem">
             68
         </sapn>&nbsp;&nbsp; 登陆时间：
-        <span style="color: #FF5722; font-family: 'yjsz';font-size: 2rem">2019-03-03 16:36</span>
+        <span style="color: #FF5722; font-family: 'yjsz';font-size: 2rem">{$server_time}</span>
     </blockquote>
     <div class="row">
         <div class="col-xs-6 col-sm-4 col-md-2">
@@ -127,45 +127,45 @@
                         <tbody>
                         <tr>
                             <th>服务器计算机名</th>
-                            <td><span id="lbServerName">http://127.0.0.1/</span></td>
+                            <td><span id="lbServerName">{$course_user}</span></td>
                             <td>服务器IP地址</td>
-                            <td>192.168.1.1</td>
+                            <td>{$server_ip}</td>
                         </tr>
                         <tr>
                             <td>服务器域名</td>
-                            <td>www.xxx.net</td>
+                            <td>{$realm_name}</td>
                             <td>服务器端口 </td>
-                            <td>80</td>
+                            <td>{$web_port}</td>
                         </tr>
                         <tr>
-                            <td>服务器IIS版本 </td>
-                            <td>Microsoft-IIS/6.0</td>
-                            <td>本文件所在文件夹 </td>
-                            <td>D:\WebSite\</td>
+                            <td>服务器Zend版本 </td>
+                            <td>{$Zend}</td>
+                            <td>PHP 版本 </td>
+                            <td>{$php_ver}</td>
                         </tr>
                         <tr>
                             <td>服务器操作系统 </td>
-                            <td>Microsoft Windows NT 5.2.3790 Service Pack 2</td>
+                            <td>{$server_system}</td>
                             <td>系统所在文件夹 </td>
-                            <td>C:\WINDOWS\system32</td>
+                            <td>C:\WINDOWS\system32?</td>
                         </tr>
                         <tr>
                             <td>服务器脚本超时时间 </td>
-                            <td>30000秒</td>
+                            <td>30000秒?</td>
                             <td>服务器的语言种类 </td>
-                            <td>Chinese (People's Republic of China)</td>
+                            <td>{$server_lang}</td>
                         </tr>
                         <tr>
                             <td>.NET Framework 版本 </td>
-                            <td>2.050727.3655</td>
+                            <td>2.050727.3655?</td>
                             <td>服务器当前时间 </td>
-                            <td>2019-6-14 12:06:23</td>
+                            <td>{$server_time}</td>
                         </tr>
                         <tr>
-                            <td>服务器IE版本 </td>
+                            <td>服务器IE版本?</td>
                             <td>6.0000</td>
                             <td>服务器上次启动到现在已运行 </td>
-                            <td>7210分钟</td>
+                            <td>7210分钟?</td>
                         </tr>
                         </tbody>
                     </table>

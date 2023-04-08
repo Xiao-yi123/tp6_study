@@ -1,0 +1,232 @@
+{extend name="Base_template/base" /}
+{block name="head_css_js"}
+<style>
+    .btn-icon{
+        text-align: center;
+        width: 3.125rem;
+        height: 3.125rem;
+        padding: 0!important;
+        position: relative;
+    }
+    .btn-icon span{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+    .siteico::before {
+        content: '';
+        display: block;
+        padding-top: 60%;
+    }
+    .img-cover{
+        max-width: 90%!important;
+        min-width: 72px!important;
+        max-height: 90%!important;
+    }
+    .v-avatar{
+        width: 32px;
+        height: 32px;
+    }
+</style>
+{/block}
+
+{block name="middle_part"}
+
+{/block}
+
+{block name="main-content"}
+<div id="content" class="container my-4 my-md-5">
+    <div class="row site-content py-4 py-md-5 mb-xl-5 mb-0 mx-xxl-n5">
+
+        <!-- 网址信息 -->
+        <div class="col-12 col-sm-5 col-md-4 col-lg-3 ">
+            <div class="bg-info shadow rounded position-relative h-100 siteico">
+                <img class="position-absolute m-auto top-0 start-0 bottom-0 end-0 img-cover rounded-circle" src="https://api.iowen.cn/favicon/{$Joggle.url}.png" alt="JSDelivr" title="JSDelivr">
+
+                <div class="mt-md-4 position-absolute m-auto start-0 bottom-0 end-0 text-center" style="padding: .625rem 0;">
+                    <a href="javascript:;" class="btn btn-like btn-icon btn-light rounded-circle p-2 mx-3 mx-md-2 " data-toggle="tooltip" data-placement="top" title="" data-original-title="点赞">
+              <span class="flex-column text-height-xs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16">
+                  <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
+                  <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/>
+                </svg>
+                <small class="like-count text-xs mt-1">{$Joggle.visits}</small>
+              </span>
+                    </a>
+                    <a href="javascript:;" class="btn-share-toggler btn btn-icon btn-light rounded-circle p-2 mx-3 mx-md-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="浏览">
+              <span class="flex-column text-height-xs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                </svg>
+                <small class="share-count text-xs mt-1">{$Joggle.collections}</small>
+              </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col mt-4 mt-sm-0">
+            <div class="site-body text-sm">
+                <h3 class="site-name h3 my-3">{$Joggle.joggle_name}</h3>
+                <div class="mt-2">
+                    <p class="mb-2">{$Joggle.joggle_description}</p>
+                    <div class="site-go mt-3">
+                        <span class="site-go-url">
+                <a style="margin-right: 10px;" href="http://{$Joggle.url}" title="JSDelivr" target="_blank" class="btn btn-arrow bg-secondary">
+                  <span>链接直达
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                  </span>
+                </a>
+              </span>
+                        <a href="javascript:" class="btn bg-secondary" data-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<img src='https://my.tv.sohu.com/user/a/wvideo/getQRCode.do?width=150&amp;height=150&amp;text=https://www.jsdelivr.com/' width='150'>">
+                <span>手机查看
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
+                    <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+                    <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+                    <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+                    <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+                    <path d="M12 9h2V8h-2v1Z"/>
+                  </svg>
+                </span>
+                        </a>
+                    </div>
+                    <p id="check_s" class="mt-2" style="">
+                        <i class="iconfont icon-smiley-circle mr-1" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" style="color:#26f123" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+                            </svg>
+                        </i>链接成功:1.8秒</p>
+                </div>
+            </div>
+        </div>
+        <!-- 网址信息 end -->
+        <div class="col-12 col-md-12 col-lg-4 mt-4 mt-lg-0">
+            <div class="apd apd-right">
+                <div>
+                    <a id="meinvTarget" href="http://www.saoh.top/" target="_blank">
+                        <img id="meinvImg" src="https://api.btstu.cn/sjbz/api.php?method=zsy&amp;lx=meizi" alt="美女壁纸" style="width: 100%; height: 100%; padding: 1.25rem;">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <h4 class="text-gray text-lg my-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag" viewBox="0 0 16 16">
+                <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
+                <path d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
+            </svg>
+            相关导航
+        </h4>
+        <div class="row mb-n4 customize-site">
+            <div class="card m-3" style="width: 18rem;">
+                <div class="card-body py-0">
+                    <div class="row">
+                        <i class="col">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"></path>
+                            </svg>
+                            0                </i>
+                        <i class="text-end col">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-incognito" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="m4.736 1.968-.892 3.269-.014.058C2.113 5.568 1 6.006 1 6.5 1 7.328 4.134 8 8 8s7-.672 7-1.5c0-.494-1.113-.932-2.83-1.205a1.032 1.032 0 0 0-.014-.058l-.892-3.27c-.146-.533-.698-.849-1.239-.734C9.411 1.363 8.62 1.5 8 1.5c-.62 0-1.411-.136-2.025-.267-.541-.115-1.093.2-1.239.735Zm.015 3.867a.25.25 0 0 1 .274-.224c.9.092 1.91.143 2.975.143a29.58 29.58 0 0 0 2.975-.143.25.25 0 0 1 .05.498c-.918.093-1.944.145-3.025.145s-2.107-.052-3.025-.145a.25.25 0 0 1-.224-.274ZM3.5 10h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5Zm-1.5.5c0-.175.03-.344.085-.5H2a.5.5 0 0 1 0-1h3.5a1.5 1.5 0 0 1 1.488 1.312 3.5 3.5 0 0 1 2.024 0A1.5 1.5 0 0 1 10.5 9H14a.5.5 0 0 1 0 1h-.085c.055.156.085.325.085.5v1a2.5 2.5 0 0 1-5 0v-.14l-.21-.07a2.5 2.5 0 0 0-1.58 0l-.21.07v.14a2.5 2.5 0 0 1-5 0v-1Zm8.5-.5h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5Z"></path>
+                            </svg>
+                            0                </i>
+                    </div>
+
+                    <div class="row my-2">
+                        <a class="col-auto m-0" href="/joggle_sites/2.html" target="_blank">
+                            <img src="https://api.iowen.cn/favicon/github.com.png" class="rounded-circle img-responsiv col" alt="..." width="40" height="40">
+                        </a>
+                        <div class="col">
+                            <h5 class="">GitHub</h5>
+                            <p class="p">GitHub是一个面向开源及私有软件项目的托管平台，因为只支持Git作为唯一的版本库格式进行托管，故名GitHub。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="comments" class="comments">
+            <h1 id="comments-list-title" class="comments-title h5 mx-1 my-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+                    <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                    <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
+                </svg>
+                <span class="noticom">
+            <a href="https://www.mgnav.com/sites/670.html#respond" class="link-dark" style="text-decoration: none;">暂无评论</a>
+          </span>
+            </h1>
+            <div class="card">
+                <div class="card-body">
+                    <div id="respond_box">
+                        <div id="respond" class="comment-respond">
+                            <form action="https://www.mgnav.com/wp-comments-post.php" method="post" id="commentform" class="text-sm mb-4">
+                                <div class="visitor-avatar d-flex flex-fill mb-2">
+                                    <img class="v-avatar rounded-circle" src="https://www.mgnav.com/wp-content/themes/webstackpro%20v2.0405/images/gravatar.jpg">
+                                </div>
+                                <div class="comment-textarea mb-3">
+                    <textarea name="comment" id="comment" class="form-control" placeholder="输入评论内容..." tabindex="4" cols="50" rows="3">
+                    </textarea>
+                                </div>
+                                <div id="comment-author-info" class="row row-sm">
+                                    <div class="col-sm-6 col-lg-4 mb-3">
+                                        <input type="text" name="author" id="author" class="form-control" value="" size="22" placeholder="昵称" tabindex="2">
+                                    </div>
+                                    <div class="col-sm-6 col-lg-4 mb-3">
+                                        <input type="text" name="email" id="email" class="form-control" value="" size="22" placeholder="邮箱" tabindex="3">
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4 mb-3">
+                                        <input type="text" name="url" id="url" class="form-control" value="" size="22" placeholder="网址" tabindex="4">
+                                    </div>
+                                </div>
+                                <div class="com-footer text-end">
+                                    <input type="hidden" id="_wpnonce" name="_wpnonce" value="15b4acf3f0">
+                                    <input type="hidden" name="_wp_http_referer" value="/sites/670.html">
+                                    <a rel="nofollow" id="cancel-comment-reply-link" style="display: none;" href="javascript:;" class="btn btn-light custom_btn-outline mx-2">再想想</a>
+                                    <input class="btn btn-dark custom_btn-d" name="submit" type="submit" id="submit" tabindex="5" value="发表评论">
+                                    <input type="hidden" name="comment_post_ID" value="670" id="comment_post_ID">
+                                    <input type="hidden" name="comment_parent" id="comment_parent" value="0">
+                                </div>
+                            </form>
+                            <div class="clear">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loading-comments">
+              <span>
+              </span>
+                    </div>
+                    <div class="not-comment card">
+                        <div class="card-body nothing text-center color-d">暂无评论...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="body_js"}
+
+<script>
+    $("#nav-tab a").click(function(event){
+        v = $(this).attr("value")
+        $("#nav-home-iframe").attr("src","/class_items?v="+v)
+    });
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+</script>
+
+{/block}
+
+
+
