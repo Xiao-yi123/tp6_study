@@ -16,5 +16,8 @@ Route::get('think', function () {
 
 Route::get('hello/:name', 'index/hello');
 //Route::get('captcha/[:config]','\\think\\captcha\\CaptchaController@index');
-
-Route::rule('joggle_sites/:joggle_id','JoggleSites/index');
+//详细页面路由
+Route::rule('joggle_sites/:joggle_id','JoggleSites/index')
+    ->pattern(['joggle_id' => '\d+']);
+//评论路由
+Route::rule('joggle_sites/comment','JoggleSites/comment');

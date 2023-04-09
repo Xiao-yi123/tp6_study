@@ -14,7 +14,10 @@ class Index extends IndexBase
 
         $result = [
             "WebConfig" => $request->WebConfig,
-            "Classify"  =>  Classify::where("status",1)->select()
+            "Classify"  =>  Classify::where([
+                "status"    => 1,
+                "rank"      => 1,
+            ])->select()
         ];
 
         return $this->fetch("",$result);
@@ -23,16 +26,26 @@ class Index extends IndexBase
 
 //    分类页面
     public function class_page(Request $request){
-
         if($request->isGet()){
             $v = $request->get("v");
+            $joggle = Joggle::where([
+                "status" => 0,
+                "classify_id"   =>  $v
+            ])->select();
+            $one_nav_name = Classify::where([
+                "id"     =>  $v,
+                "status" => 1,
+                ])->find()->class_name;
+            $tow_nav_data = Classify::where([
+                "one_rank_id"     =>  $v,
+                "status" =>  1,
+            ])->select();
+
             $result = [
                 "WebConfig" => $request->WebConfig,
-//                "Joggle"    =>  Joggle::where("status",0)->select()
-                "Joggle"    =>  Joggle::where([
-                    "status" => 0,
-                    "classify_id"   =>  $v
-                ])->select()
+                "Joggle"    =>  $joggle,
+                "name"      =>  $one_nav_name,
+                "tow_nav_data"  => $tow_nav_data
             ];
 
             return $this->fetch("",$result);
