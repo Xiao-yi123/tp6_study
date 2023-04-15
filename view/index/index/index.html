@@ -16,10 +16,10 @@
 
 {block name="main-content"}
 <div class="container">
-    <nav class="nav nav-tabs">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <nav class="nav nav-tabs border-bottom-0">
+        <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
             {foreach $Classify as $key=>$vo }
-                <a class="nav-link active mx-2" href="#" value="{$vo.id}">{$vo.class_name}</a>
+                <a class="btn btn-info rounded btn-sm mx-2" href="#" value="{$vo.id}">{$vo.class_name}</a>
             {/foreach}
 
         </div>

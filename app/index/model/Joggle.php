@@ -13,4 +13,9 @@ class Joggle extends Model
         $status = [0=>'展示',1=>'不展示',2=>'开发中',3=>'关闭'];
         return $status[$value];
     }
+
+//    定义查询范围 状态为0 展示
+    public function scopeReplyType($query){
+        $query->where('reply_type',"<>", 0)->select();
+    }
 }

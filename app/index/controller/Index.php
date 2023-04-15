@@ -5,6 +5,9 @@ use app\common\controller\IndexBase;
 use app\index\model\Classify;
 use app\index\model\Joggle;
 use app\Request;
+use think\facade\Db;
+
+
 
 class Index extends IndexBase
 {
@@ -12,12 +15,13 @@ class Index extends IndexBase
     public function index(Request $request)
     {
 
+        $Classify = Classify::scope("status")->where([
+            "rank"      => 1,
+        ])->select();
+
         $result = [
             "WebConfig" => $request->WebConfig,
-            "Classify"  =>  Classify::where([
-                "status"    => 1,
-                "rank"      => 1,
-            ])->select()
+            "Classify"  =>  $Classify
         ];
 
         return $this->fetch("",$result);
@@ -26,10 +30,15 @@ class Index extends IndexBase
 
 //    分类页面
     public function class_page(Request $request){
+
         if($request->isGet()){
+            if($this->if_iframe()){
+                return redirect("/");
+            }
+
             $v = $request->get("v");
-            $joggle = Joggle::where([
-                "status" => 0,
+            $joggle = Joggle::scope("status")->
+                    where([
                 "classify_id"   =>  $v
             ])->select();
             $one_nav_name = Classify::where([
@@ -58,8 +67,8 @@ class Index extends IndexBase
         return 'hello,' . $name;
     }
     public function home(Request $request){
-
-        return $this->fetch();
+//        Classify::status()
+        return "da";
     }
 
     public function captcha($id = '')

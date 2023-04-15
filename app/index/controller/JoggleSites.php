@@ -4,6 +4,7 @@
 namespace app\index\controller;
 
 use app\common\controller\IndexBase;
+use app\index\model\Comments;
 use app\index\model\Joggle;
 use app\Request;
 use app\validate\FromInfo;
@@ -17,12 +18,11 @@ class JoggleSites extends IndexBase
         $joggle_id = $request->param("joggle_id");
         if($request->isGet()){
             $relevant_nav_data = $this->get_relevant_nav($joggle_id);
-            $Joggle =   Joggle::where([
-                "status" => 0,
+            $Joggle =   Joggle::scope("status")
+                ->where([
                 "id"   => $joggle_id
             ])->find();
             $result = [
-//                "WebConfig" => $request->WebConfig,
                 "Joggle"  =>  $Joggle,
                 "relevant_nav_data"    =>  $relevant_nav_data
             ];
@@ -33,6 +33,12 @@ class JoggleSites extends IndexBase
 //    评论
     public function comment(Request $request){
         if($request->isGet()){
+            if($this->if_iframe()){
+                return redirect("/");
+            }
+//            获取评论列表
+
+            Comments::scope("reply_type")->select();
             return $this->fetch("");
         }elseif ($request->isPost()){
 //            {comment: 'fsa', url: 'fas', email: 'fasf', author: 'fsaf'}
@@ -51,6 +57,7 @@ class JoggleSites extends IndexBase
                     'msg'       =>  $e->getError()
                 ]);
             }
+
 
         }
     }

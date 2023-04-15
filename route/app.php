@@ -18,3 +18,6 @@ Route::get('hello/:name', 'index/hello');
 //Route::get('captcha/[:config]','\\think\\captcha\\CaptchaController@index');
 
 Route::rule('joggle_sites/:joggle_id','JoggleSites/index');
+
+
+Route::rule('text/','index/hello');
