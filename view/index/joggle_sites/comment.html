@@ -43,15 +43,50 @@
                         <input type="text" name="email" class="form-control" value="" size="22" placeholder="邮箱" tabindex="3">
                     </div>
                     <div class="col-sm-12 col-lg-4 mb-3">
+
                         <input type="text" name="url" class="form-control" value="" size="22" placeholder="网址" tabindex="4">
                     </div>
                 </div>
                 <div class="com-footer text-end">
-                    <input type="submit" class="btn btn-dark" name="submit" value="发表评论">
+                    <input type="hidden" name="joggle_id" value="{$Request.param.joggle_id}">
+                    <button class="btn btn-dark" name="submit">发表评论</button>
                 </div>
             </form>
             <div class="not-comment card">
+                {empty name="AllComment"}
                 <div class="card-body nothing text-center color-d">暂无评论...</div>
+                {/empty}
+                {notempty name="AllComment"}
+                <ul class="list-group">
+                    {volist name="AllComment" id="one_comment"}
+                    <li class="list-group-item">
+                        <div class="d-flex">
+                            <img src="https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images" alt="头像" class="rounded-circle me-3 v-avatar">
+                            <div>
+                                <h5>评论标题</h5>
+                                <p>{$one_comment.content}</p>
+                                <div class="container">
+                                    <ul class="list-group">
+                                        {volist name="one_comment.two_comment" id="two_comment"}
+                                        <li class="list-group-item">
+                                            <div class="d-flex">
+                                                <img src="https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images" alt="头像" class="rounded-circle v-avatar me-3">
+                                                <div>
+                                                    <h5>二级评论标题</h5>
+                                                    <p>{$two_comment.content}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {/volist}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+
+                </ul>
+                {/notempty}
             </div>
         </div>
     </div>
@@ -76,15 +111,16 @@
         // 设置form表单里面textarea标签的值为空
         $("#comment_form textarea").val("")
 
-        $("#comment_form input[name='submit']").click(function (){
+        $("#comment_form button[name='submit']").click(function (){
             data = {
                 "comment": $("#comment_form textarea[name='comment']").val(),
                 "url": $("#comment_form input[name='url']").val(),
                 "email": $("#comment_form input[name='email']").val(),
-                "author": $("#comment_form input[name='author']").val()
-            }
+                "author": $("#comment_form input[name='author']").val(),
+                "joggle_id":$("#comment_form input[name='joggle_id']").val(),
+            };
+
             if(!empty(data)){
-                // console.log(data)
                 alert("错误");
                 return false;
             }
@@ -93,9 +129,13 @@
                 data:data,
                 type:'post',
                 dataType:'json',
-                success:function(data) {
-                    console.log(data);
-
+                success:function(ajax_data) {
+                    console.log(ajax_data);
+                    if(ajax_data.status == 200){
+                        alert(ajax_data.msg);
+                    }else{
+                        alert(ajax_data.msg);
+                    }
                 },
                 error : function(jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);

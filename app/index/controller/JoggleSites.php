@@ -36,10 +36,17 @@ class JoggleSites extends IndexBase
             if($this->if_iframe()){
                 return redirect("/");
             }
-//            获取评论列表
+            $Joggle_id = $request->param('joggle_id');
 
-            Comments::scope("reply_type")->select();
-            return $this->fetch("");
+            $AllComment = (new Comments)->getFirstLevelByArticle($Joggle_id);
+            foreach ($AllComment as $key=>$value){
+                $AllComment[$key]['two_comment'] = ((new Comments)->getSecondLevelByFirstLevel($value['id']));
+            }
+
+            $request = [
+                'AllComment'    =>  $AllComment
+            ];
+            return $this->fetch("",$request);
         }elseif ($request->isPost()){
 //            {comment: 'fsa', url: 'fas', email: 'fasf', author: 'fsaf'}
             $data = $request->post();
@@ -58,7 +65,20 @@ class JoggleSites extends IndexBase
                 ]);
             }
 
-
+            $joggle = Joggle::scope("status")
+                ->where([
+                    "id"   => $data['joggle_id']
+                ])->find();
+            $joggle->comments()->save([
+                "content" => $data['content'],
+                "url"     =>  $data['url'],
+                'email'    =>   $data['email'],
+                'author'    =>  $data['author']
+            ]);
+            return json([
+                'status'    =>  200,
+                'msg'       =>  '成功'
+            ]);
         }
     }
 
