@@ -6,13 +6,15 @@ use think\Model;
 
 class Comments extends Model
 {
-    protected $createTime = 'create_date';
+    protected $createTime = 'comments_date';
 
     // 根据文章id查询所有的评论数据
     public function getAllByArticle($joggle_id)
     {
         return $this->where('joggle_id', $joggle_id)
-            ->order('comments_date', 'desc');
+            ->order('comments_date', 'desc')
+            ->select()
+            ->toArray();
     }
 
     // 根据文章id查询所有的1级评论数据

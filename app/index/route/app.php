@@ -20,4 +20,4 @@ Route::get('hello/:name', 'index/hello');
 Route::rule('joggle_sites/:joggle_id','JoggleSites/index')
     ->pattern(['joggle_id' => '\d+']);
 //评论路由
-Route::rule('joggle_sites/comment/:joggle_id','JoggleSites/comment');
+Route::rule('comment/:joggle_id','Comment/index');

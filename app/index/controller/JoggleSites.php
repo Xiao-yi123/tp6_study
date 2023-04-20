@@ -30,63 +30,7 @@ class JoggleSites extends IndexBase
         }
     }
 
-//    评论
-    public function comment(Request $request){
-        if($request->isGet()){
-            if($this->if_iframe()){
-                return redirect("/");
-            }
-            $Joggle_id = $request->param('joggle_id');
 
-            $AllComment = (new Comments)->getFirstLevelByArticle($Joggle_id);
-            foreach ($AllComment as $key=>$value){
-                $AllComment[$key]['two_comment'] = ((new Comments)->getSecondLevelByFirstLevel($value['id']));
-            }
 
-            $request = [
-                'AllComment'    =>  $AllComment
-            ];
-            return $this->fetch("",$request);
-        }elseif ($request->isPost()){
-//            {comment: 'fsa', url: 'fas', email: 'fasf', author: 'fsaf'}
-            $data = $request->post();
-            try {
-                validate(FromInfo::class)->check([
-                    'author'  => $data['author'],
-                    'url' => $data['url'],
-                    'email' => $data['email'],
-                    'comment' => $data['comment'],
-                ]);
-            } catch (ValidateException $e) {
-                // 验证失败 输出错误信息
-                return json([
-                    'status'    =>  210,
-                    'msg'       =>  $e->getError()
-                ]);
-            }
-
-            $joggle = Joggle::scope("status")
-                ->where([
-                    "id"   => $data['joggle_id']
-                ])->find();
-            $joggle->comments()->save([
-                "content" => $data['content'],
-                "url"     =>  $data['url'],
-                'email'    =>   $data['email'],
-                'author'    =>  $data['author']
-            ]);
-            return json([
-                'status'    =>  200,
-                'msg'       =>  '成功'
-            ]);
-        }
-    }
-
-    public function text(){
-        $a =Joggle::where("status",0)->orderRaw("rand() , id DESC")->select();
-        dump($a);
-//        echo (random_int(0,2));
-        dump($this->get_relevant_nav(3));
-    }
 
 }

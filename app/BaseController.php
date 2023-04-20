@@ -116,4 +116,13 @@ abstract class BaseController
         return Response::create($data, $type, $code);
     }
 
+    public function if_iframe(){
+        if ($this->request->header('X-Requested-With') !== 'XMLHttpRequest' && strpos($this->request->header('Referer'), '127.0.0.1') === false) {
+            return true;
+        } else {
+            // The request is not coming from an iframe
+            return false;
+        }
+    }
+
 }
