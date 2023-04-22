@@ -8,10 +8,15 @@ use think\Model;
 
 class Joggle extends Model
 {
-//    一对多查询
+    protected $createTime = 'create_time';
+//    一对多关联评论
     public function comments()
     {
         return $this->hasMany(Comments::class,'joggle_id');
+    }
+//    定义关联模型Classify
+    public function classify(){
+        return $this->belongsTo(Classify::class);
     }
 //    获取器--获取status中文
     public function getStatusAttr($value){

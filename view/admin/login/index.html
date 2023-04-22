@@ -105,8 +105,9 @@
                 //登录成功
                 app.notify(data.msg, 'success')
                 setTimeout(()=>{ //1.5秒后刷新网页（会自动跳转）
-                    window.location.reload();
+                    window.location.reload('');
                 },1500)
+
             } else {
                 //登录失败
                 //刷新验证码并清空验证码输入框

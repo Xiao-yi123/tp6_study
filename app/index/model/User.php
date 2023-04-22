@@ -15,6 +15,6 @@ class User  extends Model
     protected $readonly = ['username','salt'];
 //    定义查询范围 状态为1 表示用户状态正常
     public function scopeUserStatus($query){
-        $query->where('user_status', 1)->select();
+        $query->where('user_status', 1);
     }
 }

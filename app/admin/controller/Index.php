@@ -13,8 +13,10 @@ class Index extends AdminBase
     protected $middleware = [
         Check::class => [], //控制器中间件定义
     ];
+
     public function index(Request $request)
     {
+
         $uid = Session::get('uid');
         $userinfo = $this->getUserInfo($uid);
         $this->assign('username' , $userinfo['username']);

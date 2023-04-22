@@ -27,6 +27,11 @@
         display: block;
         padding-top: 60%;
     }
+    .siteico_botton a{
+        backdrop-filter: blur(5px);
+        background-color: rgba(250,250,250,.5) !important;
+        border-color: transparent !important;
+    }
     .img-cover{
         max-width: 90%!important;
         min-width: 72px!important;
@@ -41,6 +46,24 @@
         letter-spacing: 1px;
         margin-bottom: 0;
     }
+    .rotate{
+        background: transparent url(https://api.iowen.cn/favicon/{$Joggle.url}.png) no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        animation: rotate 30s linear infinite;filter: blur(15px);
+    }
+    @keyframes  rotate{
+        from {
+            -ms-transform: rotate(0deg); /* IE 9 */
+            transform: rotate(0deg); /* 标准语法 */
+        }
+        to {
+            -ms-transform: rotate(360deg); /* IE 9 */
+            transform: rotate(360deg); /* 标准语法 */
+        }
+    }
 </style>
 {/block}
 
@@ -52,27 +75,29 @@
 
         <!-- 网址信息 -->
         <div class="col-12 col-sm-5 col-md-4 col-lg-3 ">
-            <div class="bg-info shadow rounded position-relative h-100 siteico">
+            <div class="shadow rounded position-relative h-100 siteico overflow-hidden" style="background: #e6e8ed;">
+<!--                旋转效果-->
+                <div class="position-absolute top-0 start-0 bottom-0 end-0 opacity-25 rotate"></div>
                 <img class="position-absolute m-auto top-0 start-0 bottom-0 end-0 img-cover rounded-circle" src="https://api.iowen.cn/favicon/{$Joggle.url}.png" alt="JSDelivr" title="JSDelivr">
 
-                <div class="mt-md-4 position-absolute m-auto start-0 bottom-0 end-0 text-center" style="padding: .625rem 0;">
-                    <a href="javascript:;" class="btn btn-like btn-icon btn-light rounded-circle p-2 mx-3 mx-md-2 " data-toggle="tooltip" data-placement="top" title="" data-original-title="点赞">
-              <span class="flex-column text-height-xs">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16">
-                  <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
-                  <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/>
-                </svg>
-                <small class="like-count text-xs mt-1">{$Joggle.visits}</small>
-              </span>
+                <div class="mt-md-4 position-absolute m-auto start-0 bottom-0 end-0 text-center siteico_botton" style="padding: .625rem 0;">
+                    <a href="javascript:;" class="btn btn-like btn-icon btn-light rounded-circle p-2 mx-3 mx-md-2 border border-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="点赞">
+                          <span class="flex-column text-height-xs">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16">
+                              <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
+                              <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/>
+                            </svg>
+                            <small class="like-count text-xs mt-1">{$Joggle.visits}</small>
+                          </span>
                     </a>
                     <a href="javascript:;" class="btn-share-toggler btn btn-icon btn-light rounded-circle p-2 mx-3 mx-md-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="浏览">
-              <span class="flex-column text-height-xs">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                </svg>
-                <small class="share-count text-xs mt-1">{$Joggle.collections}</small>
-              </span>
+                          <span class="flex-column text-height-xs">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                              <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                              <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                            <small class="share-count text-xs mt-1">{$Joggle.collections}</small>
+                        </span>
                     </a>
                 </div>
             </div>

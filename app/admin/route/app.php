@@ -10,14 +10,17 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP6!';
-});
 
-Route::get('hello/:name', 'index/hello');
 Route::get('captcha/[:config]','\\think\\captcha\\CaptchaController@index');
-//详细页面路由
-Route::rule('joggle_sites/:joggle_id','JoggleSites/index')
-    ->pattern(['joggle_id' => '\d+']);
-//评论路由
-Route::rule('comment/:joggle_id','Comment/index');
+//文章类型列表首页
+//Route::rule('article_type_list/','ArticleTypeList/index');
+
+//Route::resource('joggle_list', 'Joggle');
+
+Route::rule('article_type_list/','ArticleTypeList/index');
+Route::rule('article_type_list/edit/:class_id','ArticleTypeList/edit');
+Route::rule('article_type_list/stop','ArticleTypeList/stop');
+Route::rule('article_type_list/del','ArticleTypeList/del');
+
+Route::rule('article_list/','ArticleList/index');
+Route::rule('article_list/table_data/:page/:limit','ArticleList/table_data');

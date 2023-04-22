@@ -37,4 +37,7 @@ return [
 //    是否启动多应用
     'auto_multi_app' => true,
 
+//    强制使用路由。
+    'url_route_must'        => true,
+
 ];

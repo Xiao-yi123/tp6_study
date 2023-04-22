@@ -50,9 +50,10 @@ class Login extends AdminBase
                 "data"  => null
             ];
 
-            UserModel::where("id",$res["id"])->update([
+            UserModel::where("id",$res["id"])->inc('login_number')
+                ->update([
                 "login_date"    => time(),
-                "login_ip"      => $request->ip()
+                "login_ip"      => $request->ip(),
             ]);
             return $this->RestJson($data);
             //不是post请求就渲染视图

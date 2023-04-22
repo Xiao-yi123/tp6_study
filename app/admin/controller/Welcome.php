@@ -3,6 +3,8 @@ namespace app\admin\controller;
 
 use app\admin\middleware\Check; //后台登录拦截中间件
 use app\common\controller\AdminBase;
+use app\index\model\Joggle;
+use app\index\model\User;
 use app\Request;
 use think\facade\Session;
 
@@ -14,6 +16,7 @@ class Welcome extends AdminBase
     ];
     public function index(Request $request)
     {
+
         $uid = Session::get('uid');
         $userinfo = $this->getUserInfo($uid);
         $result = [
@@ -36,8 +39,12 @@ class Welcome extends AdminBase
             //  服务器器当时时间
             'server_time'   =>  date("Y-m-d h:i"),
             'Zend'          =>  Zend_Version(),
-            //用户名
-            'username'      =>  $userinfo['username']
+            //用户信息
+            'userinfo'      =>  $userinfo,
+            //全员数
+            'vip_number'    =>  User::scope("user_status")->count(),
+            //接口总数
+            'joggle_number'        =>  Joggle::scope('status') ->count(),
         ];
 
         return $this->fetch('',$result);

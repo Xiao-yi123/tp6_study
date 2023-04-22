@@ -22,7 +22,7 @@ class Comment extends CommentsBase
 
             $All = (new Comments())->getAllByArticle($Joggle_id);
             $AllComment = $this->display_comments($All);
-            dump($AllComment);
+
             $request = [
                 'AllComment'    =>  $AllComment
             ];
