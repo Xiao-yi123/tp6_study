@@ -1,0 +1,104 @@
+{extend name="Base_template/index_base" /}
+
+
+{block name="head_css"}
+<link rel="stylesheet" href="__STATIC_ADMIN__/css/x-admin.css" media="all" />
+<link rel="stylesheet" href="__STATIC_ADMIN__/lib/layui/css/layui.css" media="all"/>
+<style>
+  #addVersionBtn {
+    float: right;
+  }
+</style>
+{/block}
+
+{block name="main"}
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a><cite>首页</cite></a>
+      <a><cite>系统设置</cite></a>
+      <a><cite>系统设置</cite></a>
+      <a><cite>版本控制</cite></a>
+    </span>
+  <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="layui-container">
+  <div class="layui-row">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          版本时间线
+          <button class="layui-btn layui-btn-sm layui-btn-normal" id="addVersionBtn" onclick="member_add_edit('添加版本号','sys_version/edit/0.html','500','300')">
+            <i class="fa fa-plus"></i> 添加版本
+          </button>
+        </div>
+        <div class="layui-card-body">
+          <div id="timeline">
+            <ul class="layui-timeline">
+              {empty name="ver_data"}
+                没有数据显示
+              {else/}
+                {volist name="ver_data" id="item"}
+                <li class="layui-timeline-item">
+                  <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                  <div class="layui-timeline-content layui-text">
+
+                      <h3 class="layui-timeline-title">{$item.created_time}</h3>
+                      <p>{$item.description}</p>
+                      <p>
+                        <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="member_add_edit('修改版本号','sys_version/edit/{$item.id}.html','500','300')">修改</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-danger" onclick="member_del('{$item.id}')">删除</button>
+                        版本{$item.version}
+                      </p>
+                  </div>
+                </li>
+                {/volist}
+
+              {/empty}
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{/block}
+
+{block name="body_js"}
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+<script>
+  layui.use(['laytpl', 'element', 'layer'], function(){
+    $ = layui.jquery;//jquery
+    element = layui.element;
+    var layer = layui.layer;
+  });
+  /*系统-添加*/
+  function member_add_edit(title,url,w,h){
+    x_admin_show(title,url,w,h);
+  }
+  /*系统-删除*/
+  function member_del(id){
+    layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index) {
+      //发异步删除数据
+      $.ajax({
+        url: 'sys_version/del',
+        data: {"id": id},
+        type: 'post',
+        dataType: 'json',
+        success: function (ajax_data) {
+          if (ajax_data.status == 200) {
+            layer.msg(ajax_data.msg, {icon: 1, time: 1000});
+          } else {
+            alert(ajax_data.msg);
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        }
+      });
+    })
+  }
+
+</script>
+
+{/block}

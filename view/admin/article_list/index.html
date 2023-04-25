@@ -2,8 +2,9 @@
 
 
 {block name="head_css"}
-<!--<link rel="stylesheet" href="__STATIC_ADMIN__/css/x-admin.css" media="all" />-->
-<link rel="stylesheet" href="__STATIC_ADMIN__/lib/layui/css/layui.css" media="all"/>
+<link rel="stylesheet" href="__STATIC_ADMIN__/css/x-admin.css" media="all" />
+<!--<link rel="stylesheet" href="__STATIC_ADMIN__/lib/layui/css/layui.css" media="all"/>-->
+<link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
 {/block}
 
 {block name="main"}
@@ -49,15 +50,16 @@
 
 {block name="body_js"}
 
-<script src="__STATIC_ADMIN__/lib/layui/layui.js" charset="utf-8"></script>
-
+<!--<script src="__STATIC_ADMIN__/lib/layui/layui.js" charset="utf-8"></script>-->
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
 <!--<script src="__STATIC_ADMIN__/js/x-layui.js" charset="utf-8"></script>-->
+
 <script>
 
     layui.use(['laydate','element','laypage','layer','table'], function(){
         $ = layui.jquery;//jquery
         laydate = layui.laydate;//日期插件
-        lement = layui.element;//面包导航
+        element = layui.element;//面包导航
         laypage = layui.laypage;//分页
         layer = layui.layer;//弹出层
         table = layui.table;//表格
@@ -65,14 +67,14 @@
 
         //以上模块根据需要引入
 
-        laypage.render({
-            elem: 'page'
-            ,pages: 100
-            ,first: 1
-            ,last: 100
-            ,prev: '<em><</em>'
-            ,next: '<em>></em>'
-        });
+        // laypage.render({
+        //     elem: 'page'
+        //     ,pages: 100
+        //     ,first: 1
+        //     ,last: 100
+        //     ,prev: '<em><</em>'
+        //     ,next: '<em>></em>'
+        // });
 
 
 
@@ -83,32 +85,32 @@
             ,range: ['#LAY_demorange_s-1', '#LAY_demorange_e-1']
         });
 
-        table.render({
-            elem: '#table_data'
-            ,url:'http://127.0.0.1:808/admin.php/article_list/table_data'
-            ,method:'get'
-            ,parseData: function(res) { //res 即为原始返回的数据
-                console.log(res);
-            }
-            , cols: [[ //标题栏
-                {field: 'id', title: 'ID'}
-                , {field: 'class_name', title: '类型名'}
-                , {field: 'visits', title: '访问数'}
-                , {field: 'collections', title: '收藏数'}
-                // , {field: 'icon_link', title: '图片链接(暂时不用)'}
-                , {field: 'joggle_description', title: '接口描述'}
-                , {field: 'joggle_name', title: '接口名'}
-                , {field: 'status', title: '状态', width: 80}
-                , {field: 'url', title: 'URL'}
-                , {field: 'create_time', title: '上线时间', sort: true}
-            ]]
-
-            //,skin: 'line' //表格风格
-
-            ,page: true //是否显示分页
-            //,limits: [5, 7, 10]
-            ,limit: 5 //每页默认显示的数量
-        });
+        // table.render({
+        //     elem: '#table_data'
+        //     ,url:'http://127.0.0.1:808/admin.php/article_list/table_data'
+        //     ,method:'get'
+        //     ,parseData: function(res) { //res 即为原始返回的数据
+        //         console.log(res);
+        //     }
+        //     , cols: [[ //标题栏
+        //         {field: 'id', title: 'ID'}
+        //         , {field: 'class_name', title: '类型名'}
+        //         , {field: 'visits', title: '访问数'}
+        //         , {field: 'collections', title: '收藏数'}
+        //         // , {field: 'icon_link', title: '图片链接(暂时不用)'}
+        //         , {field: 'joggle_description', title: '接口描述'}
+        //         , {field: 'joggle_name', title: '接口名'}
+        //         , {field: 'status', title: '状态', width: 80}
+        //         , {field: 'url', title: 'URL'}
+        //         , {field: 'create_time', title: '上线时间', sort: true}
+        //     ]]
+        //
+        //     //,skin: 'line' //表格风格
+        //
+        //     ,page: true //是否显示分页
+        //     //,limits: [5, 7, 10]
+        //     ,limit: 5 //每页默认显示的数量
+        // });
 
     });
 
