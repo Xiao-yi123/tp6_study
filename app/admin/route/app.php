@@ -29,3 +29,4 @@ Route::rule('article_list/table_data/:page/:limit','ArticleList/table_data');
 Route::rule("sys_version/",'SysVersion/index');
 Route::rule("sys_version/edit/:ver_id",'SysVersion/edit');
 Route::rule("sys_version/del",'SysVersion/del');
+

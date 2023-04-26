@@ -1,0 +1,213 @@
+{extend name="Base_template/index_base" /}
+
+{block name="head_css"}
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="__STATIC_ADMIN__/css/x-admin.css" media="all" />
+
+{/block}
+
+{block name="main"}
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>会员管理</cite></a>
+              <a><cite>会员列表</cite></a>
+            </span>
+  <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+  <form class="layui-form x-center" action="" style="width:800px">
+    <div class="layui-form-pane" style="margin-top: 15px;">
+      <div class="layui-form-item" id="LAY_demorange">
+        <label class="layui-form-label">日期范围</label>
+        <div class="layui-input-inline">
+          <input class="layui-input" placeholder="开始日" id="LAY_demorange_s">
+        </div>
+        <div class="layui-input-inline">
+          <input class="layui-input" placeholder="截止日" id="LAY_demorange_e">
+        </div>
+        <div class="layui-input-inline">
+          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline" style="width:80px">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <table class="layui-table" id="member_table" lay-filter="member_table">
+  </table>
+  <script type="text/html" id="userToolbar">
+    <button class="layui-btn layui-btn-danger" lay-event="add" onclick="delAll()">
+      <i class="layui-icon">&#xe640;</i>
+      批量删除
+    </button>
+    <button class="layui-btn"  lay-event="delete"onclick="member_add('添加用户','member-add.html','600','500')">
+       <i class="layui-icon">&#xe608;</i>
+       添加
+     </button>
+    <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge">66</span> 条</span>
+  </script>
+  <script type="text/html" id="Operation">
+    <a title="删除" href="javascript:;" lay-event="del" style="text-decoration:none">
+      <i class="layui-icon"></i>
+    </a>
+  </script>
+  <script type="text/html" id="Hstatus">
+    <button type="checkbox" name="sex" value="1" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo" >s</button>
+    sd
+    {{#  if(d.user_status==1){ }}
+    <span class="layui-btn layui-btn-normal " lay-skin="switch"  lay-filter="user_status"> 已启用 </span>
+    {{#  } else if(d.user_status==0) { }}
+    <span class="layui-btn layui-btn-danger " lay-filter="user_status"> 已禁用 </span>
+    {{#  } else { }}
+    <span class="layui-btn layui-btn-danger "> 错误 </span>
+    {{#  } }}
+  </script>
+</div>
+{/block}
+
+{block name="body_js"}
+
+
+<script src="__STATIC_ADMIN__/js/x-layui.js" charset="utf-8"></script>
+<script>
+  layui.use(['laydate','element','laypage','layer','table','form'], function(){
+    $ = layui.jquery;//jquery
+    laydate = layui.laydate;//日期插件
+    lement = layui.element//面包导航
+    laypage = layui.laypage;//分页
+    layer = layui.layer;//弹出层
+    table = layui.table;
+    form = layui.form;
+
+    //以上模块根据需要引入
+
+    laydate.render({
+      elem: '#LAY_demorange'
+      //设置开始日期、日期日期的 input 选择器
+      //数组格式为 2.6.6 开始新增，之前版本直接配置 true 或任意分割字符即可
+      ,range: ['#LAY_demorange_s', '#LAY_demorange_e']
+    });
+
+    table.render({
+      elem: '#member_table',
+      url: 'member_list/table_data',
+      toolbar: '#userToolbar',
+      parseData: function(res) { //res 即为原始返回的数据
+        console.log(res);
+      },
+      cols: [[
+        {type: 'checkbox', fixed: 'left'},
+        {field:'id', title:'ID',unresize:true},
+        {field:'nickname', title:'昵称',edit: 'text'},
+        {field:'username', title:'用户名'},
+        {field:'auth', title:'权限'},
+        {field:'salt', title:'密码盐'},
+        {field:'login_number', title:'登录次数'},
+        {field:'login_date', title:'登录时间'},
+        {field:'login_ip', title:'登录IP'},
+        {field:'create_date', title:'创建时间'},
+        {field:'create_ip', title:'创建IP'},
+        {field:'user_status', title:'用户状态',templet: '#Hstatus'},
+        {fixed: 'right', title:'操作', toolbar: '#Operation'}
+      ]],
+      page: true
+    });
+    //监听单元格编辑
+    table.on('edit(member_table)', function(obj){
+      var value = obj.value //得到修改后的值
+              ,row_data = obj.data //得到所在行所有键值
+              ,field = obj.field; //得到字段
+      layer.msg('[ID: '+ row_data.id +'] ' + field + ' 字段更改值为：'+ value);
+      data = {
+        'id': row_data.id,
+        'field' : field,
+        'value'  :value
+      }
+      $.ajax({
+        type:"post",
+        url:"member_list/edit",
+        data:data,
+        dataType:"json",
+        success:function (data) {
+          layer.msg(data.msg,{icon:1,time:1000});
+          console.log(data);
+          if(data.status==200){
+            layer.msg(data.msg,{icon:1,time:1000});
+          }else{
+            layer.msg(data.info,{icon:5,time:2000});
+          }
+        }
+      });
+    });
+    // 头工具栏事件
+    table.on('tool(member_table)', function(obj){
+      var data = obj.data;
+      console.log(data);
+      switch(obj.event){
+        case 'del':
+          alert('del')
+          break;
+      };
+    });
+    //监听性别操作
+    form.on('switch(sexDemo)', function(obj){
+      layer.msg("点击");
+      layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+    });
+  });
+
+  //批量删除提交
+  function delAll () {
+    layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
+      //捉到所有被选中的，发异步进行删除
+      layer.msg('删除成功', {icon: 1});
+    });
+  }
+  /*用户-添加*/
+  function member_add(title,url,w,h){
+    x_admin_show(title,url,w,h);
+  }
+  /*用户-查看*/
+  function member_show(title,url,id,w,h){
+    x_admin_show(title,url,w,h);
+  }
+
+  /*用户-停用*/
+  function member_stop(obj,id){
+    layer.confirm('确认要停用吗？',function(index){
+      //发异步把用户状态进行更改
+      $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
+      $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
+      $(obj).remove();
+      layer.msg('已停用!',{icon: 5,time:1000});
+    });
+  }
+
+  /*用户-启用*/
+  function member_start(obj,id){
+    layer.confirm('确认要启用吗？',function(index){
+      //发异步把用户状态进行更改
+      $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
+      $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
+      $(obj).remove();
+      layer.msg('已启用!',{icon: 6,time:1000});
+    });
+  }
+  /*用户-删除*/
+  function member_del(obj,id){
+    layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
+      //发异步删除数据
+      $(obj).parents("tr").remove();
+      layer.msg('已删除!',{icon:1,time:1000});
+    });
+  }
+</script>
+{/block}

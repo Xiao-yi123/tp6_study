@@ -11,12 +11,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
+    {block name="default_css"}
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    {/block}
     {block name="head_css"}{/block}
     {block name="head_js"}{/block}
 </head>
 <body>
 {block name="main"}{/block}
-
+{block name="default_js"}
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+{/block}
 {block name="body_css"}{/block}
 {block name="body_js"}{/block}
 

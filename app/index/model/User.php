@@ -17,4 +17,10 @@ class User  extends Model
     public function scopeUserStatus($query){
         $query->where('user_status', 1);
     }
+
+    //    获取器--获取status中文
+    public function getAuthAttr($value){
+        $status = [1=>'管理员',2=>'普通用户'];
+        return $status[$value];
+    }
 }

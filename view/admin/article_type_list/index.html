@@ -111,8 +111,6 @@
                 <span class="layui-btn layui-btn-danger "> 已禁用 </span>
                 {else /}
                 {/if}
-
-
             </td>
             <td class="td-manage">
                 <a style="text-decoration:none" onclick="member_stop(this,'{$classify.status}','{$classify.id}')" href="javascript:;" title="停用">
@@ -139,7 +137,6 @@
 {/block}
 
 {block name="body_js"}
-<script src="__STATIC_ADMIN__/lib/layui/layui.js" charset="utf-8"></script>
 <script src="__STATIC_ADMIN__/js/x-layui.js" charset="utf-8"></script>
 <script>
     layui.use(['laydate','element','laypage','layer'], function(){

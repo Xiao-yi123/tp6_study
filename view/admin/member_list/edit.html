@@ -1,0 +1,77 @@
+{extend name="Base_template/index_base" /}
+
+
+{block name="head_css"}
+<link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+
+{/block}
+
+{block name="main"}
+<!-- Add version form -->
+<div id="addForm">
+  <form class="layui-form " action="">
+    <div class="layui-form-item">
+      <label class="layui-form-label">版本号</label>
+      <div class="layui-input-block">
+        <input type="hidden" name="id" value="{$con.version|default='0'}">
+        <input type="text" name="version" required lay-verify="number|dot" value="{$con.version|default=''}" placeholder="请输入版本号" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+      <label class="layui-form-label">版本描述</label>
+      <div class="layui-input-block">
+        <textarea name="desc" required  placeholder="请输入版本描述" class="layui-textarea">{$con.description|default=""}</textarea>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn" lay-submit="" lay-filter="*">提交</button>
+      </div>
+    </div>
+  </form>
+</div>
+{/block}
+
+{block name="body_js"}
+<!--<script src="__STATIC_ADMIN__/js/x-layui.js" charset="utf-8"></script>-->
+<!--<script src="__STATIC_ADMIN__/lib/layui/layui.js" charset="utf-8"></script>-->
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+<script>
+  layui.use(['layer','form'], function() {
+    $ = layui.jquery;//jquery
+    form = layui.form;
+    layer = layui.layer;
+
+    //监听提交
+    form.on('submit(*)', function(data){
+      console.log(data.field);
+      $.ajax({
+        type:"post",
+        url:"edit",
+        data:data.field,
+        dataType:"json",
+        success:function (data) {
+          layer.msg(data.msg,{icon:1,time:1000});
+          console.log(data);
+          if(data.status==200){
+            layer.msg(data.msg,{icon:1,time:1000});
+            setTimeout(function(){
+              window.parent.location.reload();
+              var index = parent.layer.getFrameIndex(window.name);
+              parent.layer.close(index);
+            },1000);
+            return false;
+          }else{
+            layer.msg(data.info,{icon:5,time:2000});return false;
+          }
+        }
+      });
+      return false;
+    });
+
+  });
+
+
+</script>
+
+{/block}
