@@ -1,0 +1,52 @@
+<!--数据-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{$WebConfig.description|default="这家伙很懒，什么也没留下"}">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.79.0">
+    <title>{$WebConfig.web_name|default="查询工具网站"}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!-- 在线引入jq -->
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+    {block name="head_css_js"}
+
+    {/block}
+
+</head>
+
+<body oncontextmenu = "return false" onselectstart = "return false" oncopy = "return false" background="https://cdn.jsdelivr.net/gh/soxft/cdn@latest/time/img/background.png" class="mdui-drawer-body-left mdui-appbar-with-toolbar">
+{block name="header"}
+    {include file="Base_template/header"/}
+{/block}
+
+{block name="middle_part"}
+
+{/block}
+
+{block name="main-content"}
+
+{/block}
+
+{block name="body_js"}
+
+
+
+
+{/block}
+</body>
+</html>

@@ -1,0 +1,199 @@
+{extend name="Base_template/base" /}
+{block name="head_css_js"}
+<style>
+    .btn-icon{
+        text-align: center;
+        width: 3.125rem;
+        height: 3.125rem;
+        padding: 0!important;
+        position: relative;
+    }
+    .btn-icon span{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+    .siteico::before {
+        content: '';
+        display: block;
+        padding-top: 60%;
+    }
+    .siteico_botton a{
+        backdrop-filter: blur(5px);
+        background-color: rgba(250,250,250,.5) !important;
+        border-color: transparent !important;
+    }
+    .img-cover{
+        max-width: 90%!important;
+        min-width: 72px!important;
+        max-height: 90%!important;
+    }
+    .p{
+        color: #999;
+        overflow: hidden;
+        line-height: 20px;
+        height: 20px;
+        font-size: 12px;
+        letter-spacing: 1px;
+        margin-bottom: 0;
+    }
+    .rotate{
+        background: transparent url(https://api.iowen.cn/favicon/{$Joggle.url}.png) no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        animation: rotate 30s linear infinite;filter: blur(15px);
+    }
+    @keyframes  rotate{
+        from {
+            -ms-transform: rotate(0deg); /* IE 9 */
+            transform: rotate(0deg); /* 标准语法 */
+        }
+        to {
+            -ms-transform: rotate(360deg); /* IE 9 */
+            transform: rotate(360deg); /* 标准语法 */
+        }
+    }
+</style>
+{/block}
+
+
+
+{block name="main-content"}
+<div id="content" class="container my-4 my-md-5">
+    <div class="row site-content py-4 py-md-5 mb-xl-5 mb-0 mx-xxl-n5">
+
+        <!-- 网址信息 -->
+        <div class="col-12 col-sm-5 col-md-4 col-lg-3 ">
+            <div class="shadow rounded position-relative h-100 siteico overflow-hidden" style="background: #e6e8ed;">
+<!--                旋转效果-->
+                <div class="position-absolute top-0 start-0 bottom-0 end-0 opacity-25 rotate"></div>
+                <img class="position-absolute m-auto top-0 start-0 bottom-0 end-0 img-cover rounded-circle" src="https://api.iowen.cn/favicon/{$Joggle.url}.png" alt="JSDelivr" title="JSDelivr">
+
+                <div class="mt-md-4 position-absolute m-auto start-0 bottom-0 end-0 text-center siteico_botton" style="padding: .625rem 0;">
+                    <a href="javascript:;" class="btn btn-like btn-icon btn-light rounded-circle p-2 mx-3 mx-md-2 border border-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="点赞">
+                          <span class="flex-column text-height-xs">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16">
+                              <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
+                              <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/>
+                            </svg>
+                            <small class="like-count text-xs mt-1">{$Joggle.visits}</small>
+                          </span>
+                    </a>
+                    <a href="javascript:;" class="btn-share-toggler btn btn-icon btn-light rounded-circle p-2 mx-3 mx-md-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="浏览">
+                          <span class="flex-column text-height-xs">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                              <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                              <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                            <small class="share-count text-xs mt-1">{$Joggle.collections}</small>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col mt-4 mt-sm-0">
+            <div class="site-body text-sm">
+                <h3 class="site-name h3 my-3">{$Joggle.joggle_name}</h3>
+                <div class="mt-2">
+                    <p class="mb-2">{$Joggle.joggle_description}</p>
+                    <div class="site-go mt-3">
+                        <span class="site-go-url">
+                <a style="margin-right: 10px;" href="http://{$Joggle.url}" title="JSDelivr" target="_blank" class="btn btn-arrow bg-secondary">
+                  <span>链接直达
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                  </span>
+                </a>
+              </span>
+                        <a href="javascript:" class="btn bg-secondary" data-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<img src='https://my.tv.sohu.com/user/a/wvideo/getQRCode.do?width=150&amp;height=150&amp;text=https://www.jsdelivr.com/' width='150'>">
+                <span>手机查看
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
+                    <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM4 4h1v1H4V4Z"/>
+                    <path d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm2 8H4v1h1v-1Z"/>
+                    <path d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm8-6h1v1h-1V4Z"/>
+                    <path d="M9 2h5v5H9V2Zm1 1v3h3V3h-3ZM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8Zm2 2H9V9h1v1Zm4 2h-1v1h-2v1h3v-2Zm-4 2v-1H8v1h2Z"/>
+                    <path d="M12 9h2V8h-2v1Z"/>
+                  </svg>
+                </span>
+                        </a>
+                        <a href="javascript:" class="btn btn-danger qr-img tooltip-toggle rounded-lg" title="反馈">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill-exclamation" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm-.55 8.502L7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0zM8.002 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <p id="check_s" class="mt-2" style="">
+                        <i class="iconfont icon-smiley-circle mr-1" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" style="color:#26f123" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+                            </svg>
+                        </i>链接成功:1.8秒</p>
+                </div>
+            </div>
+        </div>
+        <!-- 网址信息 end -->
+        <div class="col-12 col-md-12 col-lg-4 mt-4 mt-lg-0">
+            <div class="apd apd-right">
+                <div>
+                    <a id="meinvTarget" href="" target="_blank">
+                        <img id="meinvImg" src="https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images" alt="美女壁纸" style="width: 100%; height: 100%; padding: 1.25rem;">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <h4 class="text-gray text-lg my-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag" viewBox="0 0 16 16">
+                <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
+                <path d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
+            </svg>
+            相关导航
+        </h4>
+        <div class="row mb-n4 customize-site">
+            {notempty name="relevant_nav_data.relevant"}
+                {foreach $relevant_nav_data.relevant as $key=>$vo }
+                    {include file="Base_template/nav_card"/}
+                {/foreach}
+            {/notempty}
+            {notempty name="relevant_nav_data.not_relevant"}
+                {foreach $relevant_nav_data.not_relevant as $key=>$vo }
+                    {include file="Base_template/nav_card"/}
+                {/foreach}
+            {/notempty}
+        </div>
+        <!--评论模块-->
+        <iframe id="nav-home-iframe" src="/comment/{$Joggle.id}"
+                onload="this.height=this.contentWindow.document.body.scrollHeight+30" class="container" scrolling="no">
+
+        </iframe>
+    </div>
+</div>
+{/block}
+
+{block name="body_js"}
+
+<script>
+    $(function () {
+        $("[data-toggle='tooltip']").tooltip();
+        // 设置form表单里面textarea标签的值为空
+        $("form textarea").val("")
+    });
+
+</script>
+
+{/block}
+
+
+

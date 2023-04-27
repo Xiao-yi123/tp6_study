@@ -1,0 +1,126 @@
+{extend name="Base_template/base" /}
+{block name="head_css_js"}
+<style>
+    .b_per{
+        border-bottom: 2px solid;
+    }
+    .t_per{
+        border-top: 2px solid;
+    }
+</style>
+{/block}
+
+{block name="middle_part"}
+    {include file="index/middle_part"/}
+{/block}
+
+{block name="main-content"}
+<div class="container">
+    <nav class="nav nav-tabs border-bottom-0">
+        <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
+            {foreach $Classify as $key=>$vo }
+                <a class="btn btn-info rounded btn-sm mx-2" href="#" value="{$vo.id}">{$vo.class_name}</a>
+            {/foreach}
+
+        </div>
+    </nav>
+    <main class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+<!--            <iframe id="nav-home-iframe" src="/class_items?v=1" class="container" scrolling="no">-->
+            <iframe id="nav-home-iframe" src="index/class_page?v=1" onload="this.height=this.contentWindow.document.body.scrollHeight" class="container" scrolling="no">
+
+            </iframe>
+        </div>
+
+    </main>
+</div>
+{/block}
+
+{block name="body_js"}
+<script>
+    $("#nav-tab a").click(function(event){
+        v = $(this).attr("value")
+        $("#nav-home-iframe").attr("src","index/class_page?v="+v)
+    });
+
+    $("#middle_form #middle_form_submit").click(function (){
+        value = $("#middle_form input[name=keyword]").val()
+        if(!value){
+            alert("请输入您要搜索的内容")
+            return false;
+        }
+        action = $("#middle_form").attr("action")+value
+        window.open(action, "_blank");
+    });
+</script>
+
+<script>
+    // 中间的ul点击事件函数
+    function middle_bott_ul_click(){
+        $("#middle_bott_ul a").on("click",function(){
+            $("#middle_bott_ul a").removeClass("t_per")
+            $(this).addClass("t_per")
+            set_placeholder()
+        });
+
+
+    }
+    //设置中间的ul
+    function set_middle_bott_ul(text="常用"){
+        $.getJSON("__STATIC_INDEX__/json/package.json", function(data) {
+            //data 代表读取到的json中的数据
+            text = data[text]
+            html = ""
+            set_form_action(text[0]['link'])
+            for(index in text){
+                html+='<li class="nav-item">\n' +
+                    '            <a class="nav-link active" aria-current="page" href="#">'+text[index]['name']+'</a>\n' +
+                    '        </li>\n'
+            }
+            $("#middle_bott_ul").html(html)
+            $("#middle_bott_ul a:first").addClass("t_per")
+
+
+            middle_bott_ul_click()
+        });
+    }
+    //设置a标签的placeholder属性
+    function set_placeholder(){
+        $.getJSON("__STATIC_INDEX__/json/package.json", function(data) {
+            top_a_text = $("#middle_top_ul a[class*=b_per]").text().trim()//图片
+            bott_a_text = $("#middle_bott_ul a[class*=t_per]").text()
+            text = data[top_a_text]
+            for(index in text) {
+                if (text[index]['name'] == bott_a_text) {
+                    $("#middle_form input[name=keyword]").attr("placeholder", text[index]['placeholder'])
+                    set_form_action(text[index]['link'])
+                }
+            }
+        });
+    }
+    // 设置form的action值
+    function set_form_action(link="#"){
+        $("#middle_form").attr("action",link)
+    }
+    $(document).ready(function(){
+        set_middle_bott_ul()
+        set_form_action()
+        $("#middle_top_ul a").click(function(){
+            $("#middle_top_ul a").removeClass("b_per")
+
+            text = $(this).text().trim()
+
+            set_middle_bott_ul(text)
+            $(this).addClass("b_per")
+
+            set_placeholder()
+
+        });
+    });
+
+</script>
+<script>
+
+
+</script>
+{/block}

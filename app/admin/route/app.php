@@ -13,20 +13,21 @@ use think\facade\Route;
 
 Route::get('captcha/[:config]','\\think\\captcha\\CaptchaController@index');
 Route::get('/','index/index');
+Route::get('/index','index/index');
+Route::get('/logout','index/logout');
 //文章类型列表首页
 //Route::rule('article_type_list/','ArticleTypeList/index');
 
-//Route::resource('joggle_list', 'Joggle');
-
-Route::rule('article_type_list/','ArticleTypeList/index');
-Route::rule('article_type_list/edit/:class_id','ArticleTypeList/edit');
-Route::rule('article_type_list/stop','ArticleTypeList/stop');
-Route::rule('article_type_list/del','ArticleTypeList/del');
-
-Route::rule('article_list/','ArticleList/index');
-Route::rule('article_list/table_data/:page/:limit','ArticleList/table_data');
-
-Route::rule("sys_version/",'SysVersion/index');
-Route::rule("sys_version/edit/:ver_id",'SysVersion/edit');
-Route::rule("sys_version/del",'SysVersion/del');
+//
+//Route::rule('article_type_list/','ArticleTypeList/index');
+//Route::rule('article_type_list/edit/:class_id','ArticleTypeList/edit');
+//Route::rule('article_type_list/stop','ArticleTypeList/stop');
+//Route::rule('article_type_list/del','ArticleTypeList/del');
+//
+//Route::rule('article_list/','ArticleList/index');
+//Route::rule('article_list/table_data/:page/:limit','ArticleList/table_data');
+//
+//Route::rule("sys_version/",'SysVersion/index');
+//Route::rule("sys_version/edit/:ver_id",'SysVersion/edit');
+//Route::rule("sys_version/del",'SysVersion/del');
 

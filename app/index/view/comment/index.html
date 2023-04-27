@@ -1,0 +1,248 @@
+{extend name="Base_template/base" /}
+
+{block name="head_css_js"}
+<style>
+    .v-avatar{
+        width: 32px;
+        height: 32px;
+    }
+
+
+</style>
+{/block}
+{block name="header"}
+{/block}
+{block name="main-content"}
+<div>
+    <h1 class="h5 mx-1 my-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+            <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
+        </svg>
+        <span class="noticom">
+            <a href="https://www.mgnav.com/sites/670.html#respond" class="link-dark" style="text-decoration: none;">暂无评论</a>
+        </span>
+    </h1>
+
+    <div class="card">
+        <div class="card-body">
+<!--            顶部评论-->
+            <form class="text-sm mb-4" id="comment_form" onsubmit="return false;">
+                <div class="visitor-avatar d-flex flex-fill mb-2">
+                    <img class="v-avatar rounded-circle" src="https://www.mgnav.com/wp-content/themes/webstackpro%20v2.0405/images/gravatar.jpg">
+                </div>
+                <div class="comment-textarea mb-3">
+                    <textarea name="comment" class="form-control" placeholder="输入评论内容..." tabindex="4" cols="50" rows="3">
+                    </textarea>
+                </div>
+                <div class="row row-sm">
+                    <div class="col-sm-6 col-lg-4 mb-3">
+                        <input type="text" name="author" class="form-control" value="" size="22" placeholder="昵称" tabindex="2">
+                    </div>
+                    <div class="col-sm-6 col-lg-4 mb-3">
+                        <input type="text" name="email" class="form-control" value="" size="22" placeholder="邮箱" tabindex="3">
+                    </div>
+                    <div class="col-sm-12 col-lg-4 mb-3">
+
+                        <input type="text" name="url" class="form-control" value="" size="22" placeholder="网址" tabindex="4">
+                    </div>
+                </div>
+                <div class="com-footer text-end">
+                    <input type="hidden" name="joggle_id" value="{$Request.param.joggle_id}">
+                    <button class="btn btn-dark" name="submit" onclick="but_submit(1,'comment_form')">发表评论</button>
+                </div>
+
+            </form>
+            <div class="not-comment card">
+                {empty name="AllComment"}
+                <div class="card-body nothing text-center color-d bg-secondary">暂无评论...</div>
+                {else /}
+                <ul class="list-group" id="accordionExample">
+<!--                    1级评论-->
+                    {volist name="AllComment" id="one_comment"}
+                    <li class="list-group-item">
+                        <div class="d-flex">
+                            <img src="https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images" alt="头像" class="rounded-circle me-3 v-avatar">
+                            <div class="w-100">
+                                <h5>{$one_comment.author}</h5>
+                                <div class="m-0 text-secondary">
+                                    <span class="pe-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                                          <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
+                                          <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
+                                        </svg>
+                                        {$one_comment.comments_date}
+                                    </span>
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                          <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                        </svg>
+                                        {$one_comment.place}
+                                    </span>
+                                </div>
+                                <p class="m-0">{$one_comment.content}</p>
+                                <div>
+                                    <div class="text-end text-secondary" data-bs-toggle="collapse" data-bs-target="#comment{$one_comment.id}" aria-expanded="true" aria-controls="#accordionExample">回复</div>
+                                    <div id="comment{$one_comment.id}" class="collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <form class="text-sm mb-4 comment_form" onsubmit="return false;">
+                                                <div class="comment-textarea mb-3">
+                                                    <textarea name="comment" class="form-control" placeholder="输入评论内容..." tabindex="4" cols="50" rows="3">
+                                                    </textarea>
+                                                </div>
+                                                <div class="row row-sm">
+                                                    <div class="col-sm-6 col-lg-4 mb-3">
+                                                        <input type="text" name="author" class="form-control" value="" size="22" placeholder="昵称" tabindex="2">
+                                                    </div>
+                                                    <div class="col-sm-6 col-lg-4 mb-3">
+                                                        <input type="text" name="email" class="form-control" value="" size="22" placeholder="邮箱" tabindex="3">
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-4 mb-3">
+
+                                                        <input type="text" name="url" class="form-control" value="" size="22" placeholder="网址" tabindex="4">
+                                                    </div>
+                                                </div>
+                                                <div class="com-footer text-end">
+                                                    <input type="hidden" name="joggle_id" value="{$Request.param.joggle_id}">
+                                                    <button class="btn btn-dark" name="submit" onclick="but_submit(2,'comment{$one_comment.id}',{$one_comment.id})">发表评论</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container">
+                                    <ul class="list-group">
+                                        <p>不</p>
+<!--                                        2级评论-->
+                                        {notempty name="one_comment.two"}
+                                        {volist name="one_comment.two" id="two_comment"}
+                                        <li class="list-group-item">
+                                            <div class="d-flex">
+                                                <img src="https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images" alt="头像" class="rounded-circle v-avatar me-3">
+                                                <div class="w-100">
+                                                    <h5>{$two_comment.author}</h5>
+                                                    <div class="m-0 text-secondary">
+                                                        <span class="pe-3">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                                                              <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
+                                                              <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
+                                                            </svg>
+                                                            {$two_comment.comments_date}
+                                                        </span>
+                                                        <span>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                                              <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                                            </svg>
+                                                            {$two_comment.place}
+                                                        </span>
+                                                    </div>
+                                                    <p class="m-0">{$two_comment.content}</p>
+                                                    <div>
+                                                        <div class="text-end text-secondary" data-bs-toggle="collapse" data-bs-target="#comment{$two_comment.id}" aria-expanded="true" aria-controls="#accordionExample">回复</div>
+                                                        <div id="comment{$two_comment.id}" class="collapse" data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body">
+                                                                <form class="text-sm mb-4 comment_form" onsubmit="return false;">
+                                                                    <div class="comment-textarea mb-3">
+                                                                        <textarea name="comment" class="form-control" placeholder="输入评论内容..." tabindex="4" cols="50" rows="3">
+                                                                        </textarea>
+                                                                    </div>
+                                                                    <div class="row row-sm">
+                                                                        <div class="col-sm-6 col-lg-4 mb-3">
+                                                                            <input type="text" name="author" class="form-control" value="" size="22" placeholder="昵称" tabindex="2">
+                                                                        </div>
+                                                                        <div class="col-sm-6 col-lg-4 mb-3">
+                                                                            <input type="text" name="email" class="form-control" value="" size="22" placeholder="邮箱" tabindex="3">
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-lg-4 mb-3">
+
+                                                                            <input type="text" name="url" class="form-control" value="" size="22" placeholder="网址" tabindex="4">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="com-footer text-end">
+                                                                        <input type="hidden" name="joggle_id" value="{$Request.param.joggle_id}">
+                                                                        <button class="btn btn-dark" name="submit" onclick="but_submit(2,'comment{$two_comment.id}',{$two_comment.id})">发表评论</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        {/volist}
+                                        {/notempty}
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+
+                </ul>
+                {/empty}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+
+{block name="body_js"}
+
+<script>
+    // $(function () {
+        /**
+         * 判断表单是否为空
+         * @param obj
+         * @returns {boolean}
+         */
+        function empty(data){
+            if(!(data['comment'] && data['url'] && data['email'] && data["author"]))
+                return false;
+            return true;
+        }
+        // 设置form表单里面textarea标签的值为空
+        $("textarea").val("")
+
+        function but_submit(reply_type,form_id,reply_id=""){
+            data = {
+                "comment": $(`#${form_id} textarea[name='comment']`).val(),
+                "url": $(`#${form_id} input[name='url']`).val(),
+                "email": $(`#${form_id} input[name='email']`).val(),
+                "author": $(`#${form_id} input[name='author']`).val(),
+                "joggle_id":$(`#${form_id} input[name='joggle_id']`).val(),
+                'reply_type':reply_type,
+                "reply_id"  :   reply_id,
+
+            };
+            console.log(data)
+            if(!empty(data)){
+                alert("错误");
+                return false;
+            }
+            $.ajax( {
+                url:'comment',
+                data:data,
+                type:'post',
+                dataType:'json',
+                success:function(ajax_data) {
+                    console.log(ajax_data);
+                    if(ajax_data.status == 200){
+                        alert(ajax_data.msg);
+                        location.reload();
+                    }else{
+                        alert(ajax_data.msg);
+                    }
+                },
+                error : function(jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    // });
+
+</script>
+
+{/block}

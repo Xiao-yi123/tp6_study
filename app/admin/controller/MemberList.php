@@ -25,6 +25,20 @@ class MemberList extends AdminBase
 
         return json($reqult);
     }
+    public function del(Request $request){
+        if($request -> isPost()){
+            $data  = $request->param();
+            $user = User::where("id",$data['id'])->find();
+            $user->user_status = $data['status'];
+            $user->save();
+            return json(
+                [
+                    'code'  =>  200,
+                    'msg'   =>  "成功"
+                ]
+            );
+        }
+    }
     public function edit(Request $request){
         if($request->isPost()){
             $data = $request->param();

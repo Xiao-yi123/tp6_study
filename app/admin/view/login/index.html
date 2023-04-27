@@ -1,0 +1,149 @@
+{extend name="Base_template/login_base" /}
+
+{block name="head_css"}
+    <link rel="stylesheet" id="css-main" href="__STATIC_LOGIN__/css/codebase.min-5.4.css">
+<!--    弹出层组件-->
+<!--    <link rel="stylesheet" href="https://apis.zhian.pro/assets/js/theme/default/layer.css?v=3.5.1" id="layuicss-layer"></head>-->
+{/block}
+{block name="main"}
+<div id="page-container" class="main-content-boxed">
+    <main id="main-container">
+        <div class="bg-body-dark">
+            <div class="row mx-0 justify-content-center">
+                <div class="hero-static col-lg-6 col-xl-4">
+                    <div class="content content-full overflow-hidden">
+                        <div class="py-4 text-center">
+                            <a class="link-fx fw-bold" href="">
+                                <i class="fa fa-fire"></i>
+                                <span class="fs-4 text-body-color">SB</span>
+                                <span class="fs-4">微信</span>
+                            </a>
+                            <h1 class="h3 fw-bold mt-4 mb-2">
+                                SB微信特约商户进件系统
+                            </h1>
+                            <h2 class="h5 fw-medium text-muted mb-0">
+                                It’s a great day today!
+                            </h2>
+                        </div>
+                        <div class="js-validation-signin">
+                            <div class="block block-themed block-rounded block-fx-shadow">
+                                <div class="block-header bg-primary-light">
+                                    <h3 class="block-title">请登录</h3>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control" name="user" id="user" placeholder="管理员账号" required="" autocomplete="off">
+                                        <label class="form-label" for="user">管理员账号</label>
+                                    </div>
+                                    <div class="form-floating mb-4">
+                                        <input type="password" class="form-control" name="password" id="password" placeholder="管理员密码" required="" autocomplete="off">
+                                        <label class="form-label" for="password">管理员密码</label>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码">
+                                                <label class="form-label" for="captcha">验证码</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <div onclick="recode()" style="cursor: pointer">
+                                                    <img id="code" class="border" src="{:captcha_src()}" alt="captcha"  height="58px;" width="100%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="text-sm-end push">
+                                            <button type="submit" id="submit" class="btn btn-lg btn-alt-primary fw-medium">
+                                                登录
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+{/block}
+
+{block name="body_js"}
+<script src="__STATIC_LOGIN__/js/lib/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+<script src="__STATIC_LOGIN__/js/codebase.app.min-5.4.js"></script>
+<script src="__STATIC_LOGIN__/js/layer.js"></script>
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.11/clipboard.min.js"></script>
+<script src="__STATIC_LOGIN__/js/bootstrap-notify.min.js"></script>
+<script src="__STATIC_LOGIN__/js/app.js"></script>
+
+<script>
+    //页面加载完成后，每三分钟刷新一次验证码
+    onload: {
+        setInterval(recode, 180000);
+    };
+
+    $('#submit').click( () => {
+
+        let post_data       = {};
+        post_data.user      = app.getval('#user');
+        post_data.password  = app.getval('#password');
+        post_data.captcha   = app.getval('#captcha');
+
+        //判断表单是否有空
+        if(!empty(post_data)){
+            return false;
+        }
+        //发起ajax请求    url留空请求当前地址
+        app.ajax('', post_data, data => {
+            if (data.code == 200) {
+                //登录成功
+                app.notify(data.msg, 'success')
+                setTimeout(()=>{ //1.5秒后刷新网页（会自动跳转）
+                    window.location.reload('');
+                },1500)
+
+            } else {
+                //登录失败
+                //刷新验证码并清空验证码输入框
+                recode();
+                $("#captcha").val("");
+                app.notify(data.msg, 'danger');
+            }
+        })
+    });
+
+    /**
+     * 刷新验证码方法
+     */
+    function recode(){
+        $("#code").attr('src', '{:captcha_src()}?id=' + Math.random());
+    }
+
+    /**
+     * 判断表单是否为空
+     * @param obj
+     * @returns {boolean}
+     */
+    function empty(obj){
+        if (obj.user == '' || obj.user == null || obj.user == undefined){
+            app.notify('管理员账号不能为空!', 'warning')
+            return false;
+        }
+        if (obj.password == '' || obj.password == null || obj.password == undefined){
+            app.notify('管理员密码不能为空!', 'warning')
+            return false;
+        }
+        if (obj.captcha == '' || obj.captcha == null || obj.captcha == undefined){
+            app.notify('验证码不能为空!', 'warning')
+            return false;
+        }
+        return true;
+    }
+</script>
+{/block}

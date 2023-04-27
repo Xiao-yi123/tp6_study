@@ -22,7 +22,35 @@ class ArticleTypeList  extends  AdminBase
         return $this->fetch('',$request);
     }
 
+    public function table_data(){
+        $Muser = Classify::select();
+        $reqult = [
+            'code'  =>  0,
+            'msg'   =>  '成功',
+            'count' =>  $Muser->count(),
+            'data'  =>  $Muser
+        ];
+
+        return json($reqult);
+    }
     public function edit(Request $request){
+        if($request->isPost()){
+            $data = $request->param();
+            $Class = Classify::where("id",$data['id'])->find();
+            if($data['value'] == $Class[$data['field']]){
+                return json([
+                    'code'  =>  201,
+                    'msg'   =>  "数据没有修改"
+                ]);
+            }
+            $Class[$data['field']] = $data['value'];
+            $Class->save();
+            return json([
+                'code'  =>  200,
+                'msg'   =>  "修改成功"
+            ]);
+        }
+
         if($request->isGet()){
             $class_id = $request->param('class_id');
             $reqult = [];
@@ -66,17 +94,11 @@ class ArticleTypeList  extends  AdminBase
 
         if($request->isPost()){
             $data = $request->post();
-            if ($data['status_code'] == 0){
-                Classify::where("id",$data['id'])->save([
-                    'status'   =>  1
-                ]);
-            }elseif($data['status_code'] == 1){
-                Classify::where("id",$data['id'])->save([
-                    'status'   =>  0
-                ]);
-            }
+            $Class = Classify::where("id",$data['id'])->find();
+            $Class->status = $data['status'];
+            $Class->save();
             return json([
-                'status'    =>  200,
+                'code'    =>  200,
                 'msg'       =>  '成功'
             ]);
         }

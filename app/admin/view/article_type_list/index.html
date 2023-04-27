@@ -1,0 +1,216 @@
+{extend name="Base_template/index_base" /}
+
+
+{block name="head_css"}
+<link rel="stylesheet" href="__STATIC_ADMIN__/css/x-admin.css" media="all" />
+<link rel="stylesheet" href="__STATIC_ADMIN__/lib/layui/css/layui.css" media="all"/>
+
+{/block}
+
+{block name="main"}
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>文章管理管理</cite></a>
+              <a><cite>文章类型列表</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <form class="layui-form x-center" action="" style="width:800px">
+        <div class="layui-form-pane" style="margin-top: 15px;">
+            <div class="layui-form-item" id="LAY_demorange">
+                <label class="layui-form-label">日期范围</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" placeholder="开始日" id="LAY_demorange_s">
+                </div>
+                <div class="layui-input-inline">
+                    <input class="layui-input" placeholder="截止日" id="LAY_demorange_e">
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:80px">
+                    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <xblock>
+        <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge">{$article_types|count}</span> 条</span></xblock>
+
+    <table class="layui-table" id="article_table" lay-filter="article_table">
+
+    </table>
+
+    <div id="page"></div>
+</div>
+<script type="text/html" id="artTool">
+    <button class="layui-btn layui-btn-danger" lay-event="add" onclick="delAll()">
+        <i class="layui-icon">&#xe640;</i>
+        批量删除
+    </button>
+    <button class="layui-btn"  lay-event="delete"onclick="member_add('添加用户','member-add.html','600','500')">
+        <i class="layui-icon">&#xe608;</i>
+        添加
+    </button>
+    <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge">66</span> 条</span>
+</script>
+<script type="text/html" id="Hstatus">
+    <input type="checkbox" name="status" value="{{d.id}}"  lay-skin="switch" lay-text=禁用|启用" lay-filter="status" {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="operation">
+    <a title="删除" href="javascript:;" onClick="member_del(this,'{d.id}')"
+       style="text-decoration:none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+        </svg>
+    </a>
+</script>
+{/block}
+
+{block name="body_js"}
+<script src="__STATIC_ADMIN__/js/x-layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['laydate','element','laypage','layer','table','form'], function() {
+        $ = layui.jquery;//jquery
+        laydate = layui.laydate;//日期插件
+        lement = layui.element;//面包导航
+        laypage = layui.laypage;//分页
+        layer = layui.layer;//弹出层
+        table = layui.table;
+        form = layui.form;
+
+        //以上模块根据需要引入
+        laypage.render({
+            elem: 'page'
+            , pages: 100
+            , first: 1
+            , last: 100
+            , prev: '<em><</em>'
+            , next: '<em>></em>'
+        });
+
+        laydate.render({
+            elem: '#LAY_demorange'
+            //设置开始日期、日期日期的 input 选择器
+            //数组格式为 2.6.6 开始新增，之前版本直接配置 true 或任意分割字符即可
+            , range: ['#LAY_demorange_s', '#LAY_demorange_e']
+        });
+        table.render({
+            elem: '#article_table',
+            url: 'ATL/table_data',
+            toolbar: '#artTool',
+            parseData: function (res) { //res 即为原始返回的数据
+                console.log(res);
+            },
+            cols: [[
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'ID'},
+                {field: 'class_name', title: '接口类型名', edit: 'text'},
+                {field: 'one_rank_id', title: '上级类型'},
+                {field: 'number', title: '数量'},
+                {field: 'link', title: '描述'},
+                {field: 'create_date', title: '加入时间'},
+                {field: 'update_time', title: '更新时间'},
+                {field: 'status', title: '状态', templet: '#Hstatus'},
+                {field: 'right', title: '操作', templet: '#operation', width: 100,},
+            ]],
+            page: true
+        });
+        //监听单元格编辑
+        table.on('edit(article_table)', function(obj){
+            var value = obj.value //得到修改后的值
+                ,row_data = obj.data //得到所在行所有键值
+                ,field = obj.field; //得到字段
+            data = {
+                'id': row_data.id,
+                'field' : field,
+                'value'  :value
+            }
+            console.log(data)
+            $.ajax({
+                type:"post",
+                url:"ATL/edit",
+                data:data,
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    layer.msg(data.msg,{icon:1,time:1000});
+                    console.log(data);
+                    if(data.code==200){
+                        layer.msg(data.msg,{icon:1,time:1000});
+                    }else{
+                        layer.msg(data.info,{icon:5,time:2000});
+                    }
+                }
+            });
+        });
+        //监听状态操作
+        form.on('switch(status)', function (obj) {
+            obj.elem.disabled = true;
+            data = {
+                "id": this.value,
+                "status": 0
+            }
+            if (obj.elem.checked) {
+                data['stauts'] = 1
+            }
+            $.ajax({
+                type: "post",
+                url: "ATL/stop",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.msg(data.msg, {icon: 1, time: 1000});
+                        obj.elem.disabled = false;
+                    } else {
+                        layer.msg(data.msg, {icon: 5, time: 2000});
+                    }
+                },
+            });
+        });
+    });
+
+    //批量删除提交
+    function delAll () {
+        layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+        });
+    }
+    /*用户-添加*/
+    function member_add(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
+            //发异步删除数据
+            $.ajax( {
+                url:'ATL/del',
+                data: {"id":id},
+                type:'post',
+                dataType:'json',
+                success:function(ajax_data) {
+                    if(ajax_data.status == 200){
+                        layer.msg(ajax_data.msg,{icon:1,time:1000});
+                        // layer.msg('已删除!',{icon:1,time:1000});
+                        // location.reload();
+                    }else{
+                        alert(ajax_data.msg);
+                    }
+                },
+                error : function(jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+
+        });
+    }
+</script>
+
+
+{/block}
