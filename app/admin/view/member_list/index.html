@@ -43,22 +43,34 @@
 
   <table class="layui-table" id="member_table" lay-filter="member_table">
   </table>
-  <script type="text/html" id="userToolbar">
-    <button class="layui-btn layui-btn-danger" lay-event="add" onclick="delAll()">
-      <i class="layui-icon">&#xe640;</i>
-      批量删除
-    </button>
-    <button class="layui-btn"  lay-event="delete"onclick="member_add('添加用户','member-add.html','600','500')">
-       <i class="layui-icon">&#xe608;</i>
-       添加
-     </button>
-    <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge">66</span> 条</span>
-  </script>
 
-  <script type="text/html" id="Hstatus">
-    <input type="checkbox" name="status" value="{{d.id}}"  lay-skin="switch" lay-text=禁用|启用" lay-filter="user_status" {{ d.user_status == 1 ? 'checked' : '' }}>
-  </script>
 </div>
+<script type="text/html" id="userToolbar">
+  <button class="layui-btn layui-btn-danger" lay-event="delSel">
+    <i class="layui-icon">&#xe640;</i>
+    批量删除
+  </button>
+  <button class="layui-btn"  lay-event="add">
+    <i class="layui-icon">&#xe608;</i>
+    添加
+  </button>
+</script>
+
+<script type="text/html" id="Hstatus">
+  <span class="layui-btn {{ d.user_status == 0 ? 'layui-btn-danger' : 'layui-btn-normal' }} " > {{ d.user_status == 0 ? '已禁用' : '已启用' }}  </span>
+</script>
+<script type="text/html" id="operation">
+  <a style="text-decoration:none" lay-event="stop" href="javascript:;" title="停用">
+    <i class="layui-icon">&#xe601;</i>
+  </a>
+  <a title="编辑" href="javascript:;" lay-event="edit" class="ml-5" style="text-decoration:none">
+    <i class="layui-icon">&#xe642;</i>
+  </a>
+
+  <a title="删除" href="javascript:;" lay-event="del"   style="text-decoration:none">
+    <i class="layui-icon">&#xe640;</i>
+  </a>
+</script>
 {/block}
 
 {block name="body_js"}
@@ -86,7 +98,7 @@
 
     table.render({
       elem: '#member_table',
-      url: 'ML/table_data',
+      url: '{$url_con}/table_data',
       toolbar: '#userToolbar',
       parseData: function(res) { //res 即为原始返回的数据
         console.log(res);
@@ -103,74 +115,106 @@
         {field:'login_ip', title:'登录IP'},
         {field:'create_date', title:'创建时间'},
         {field:'create_ip', title:'创建IP'},
-        {field:'user_status', title:'用户状态',templet: '#Hstatus',width:100,},
+        {field:'user_status', title:'用户状态',templet: '#Hstatus'},
+        {field:'right', title:'操作',toolbar: '#operation'},
       ]],
-      // page: true
+      page: true,
+      limit:10
     });
-    //监听单元格编辑
-    table.on('edit(member_table)', function(obj){
-      var value = obj.value //得到修改后的值
-              ,row_data = obj.data //得到所在行所有键值
-              ,field = obj.field; //得到字段
-      // layer.msg('[ID: '+ row_data.id +'] ' + field + ' 字段更改值为：'+ value);
-      data = {
-        'id': row_data.id,
-        'field' : field,
-        'value'  :value
-      }
-      $.ajax({
-        type:"post",
-        url:"ML/edit",
-        data:data,
-        dataType:"json",
-        success:function (data) {
-          layer.msg(data.msg,{icon:1,time:1000});
-          console.log(data);
-          if(data.status==200){
-            layer.msg(data.msg,{icon:1,time:1000});
-          }else{
-            layer.msg(data.info,{icon:5,time:2000});
-          }
-        }
-      });
-    });
-    // 头工具栏事件
+
+
+    // 监听行工具事件
     table.on('tool(member_table)', function(obj){
       var data = obj.data;
-      console.log(data);
+
+      if(obj.event === 'del'){
+        layer.confirm('真的删除行么', function(index){
+          obj.del();
+          layer.close(index);
+          $.ajax({
+            type:"post",
+            url:"{$url_con}/del",
+            data:data,
+            dataType:"json",
+            success:function (data) {
+              if(data.code==200){
+                layer.msg(data.msg,{icon:1,time:1000});
+              }else{
+                layer.msg(data.msg,{icon:5,time:2000});
+              }
+            },
+          });
+        });
+      }
+      else if(obj.event === 'edit'){
+        x_admin_show("编辑",`{$url_con}/add_edit?id=${data['id']}.html`,'500','400');
+      }
+      else if(obj.event === 'stop'){
+
+        if(data['user_status'] == 0){
+          data['user_status'] = 1;
+        }else if(data['user_status'] == 1){
+          data['user_status'] = 0;
+        }
+
+        $.ajax({
+          type:"post",
+          url:"{$url_con}/stop",
+          data:data,
+          dataType:"json",
+          success:function (res_data) {
+            if(res_data.code==200){
+              layer.msg(res_data.msg,{icon:1,time:1000});
+              location.replace(location.href);
+            }else{
+              layer.msg(res_data.msg,{icon:5,time:2000});
+            }
+          },
+        });
+      }
+    });
+
+    //监听头部事件
+    table.on('toolbar(member_table)', function(obj){
       switch(obj.event){
-        case 'del':
-          alert('del')
+        case 'add':
+          x_admin_show("添加",`{$url_con}/add_edit?id=0`,'500','400');
           break;
+        case 'delSel':
+          delSel()
+          break;
+
       };
     });
-    //监听状态操作
-    form.on('switch(user_status)', function(obj){
-      obj.elem.disabled = true;
-      data = {
-        "id" : this.value,
-        "status"  : 0
+
+  });
+  //批量删除提交
+  function delSel () {
+    layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
+      //捉到所有被选中的，发异步进行删除
+      data = table.checkStatus('article_table').data;
+
+      ids = []
+      for(i = 0;i < data.length;i++){
+        ids.push(data[i]['id']);
       }
-      if(obj.elem.checked){
-        data['stauts'] = 1
-      }
+
       $.ajax({
         type:"post",
-        url:"ML/del",
-        data:data,
+        url:"{$url_con}/del_sel",
+        data:{'ids':ids},
         dataType:"json",
         success:function (data) {
+          console.log(data);
           if(data.code==200){
             layer.msg(data.msg,{icon:1,time:1000});
-            obj.elem.disabled = false;
           }else{
             layer.msg(data.msg,{icon:5,time:2000});
           }
         },
       });
-    })
 
-  });
-
+    });
+  }
 </script>
 {/block}

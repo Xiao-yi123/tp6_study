@@ -1,0 +1,148 @@
+{extend name="Base_template/index_base" /}
+
+
+{block name="head_css"}
+<link rel="stylesheet" href="__STATIC_ADMIN__/css/x-admin.css" media="all" />
+
+{/block}
+
+{block name="main"}
+<div class="x-body">
+  <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+
+    <div class="layui-tab-content" >
+      <div class="layui-tab-item layui-show">
+        <form class="layui-form layui-form-pane" action="">
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+              <span class='x-red'>*</span>一级分类
+            </label>
+            <div class="layui-input-block">
+              <select name="select_level1" lay-filter="select_level1" id="select_level1">
+                {volist name="one_sel" id="type_value"}
+                <option value="{$type_value.id}">{$type_value.class_name}</option>
+                {/volist}
+
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+              <span class='x-red'>*</span>二级分类
+            </label>
+            <div class="layui-input-block">
+              <select name="select_level2" lay-filter="select_level2" id="select_level2">
+
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+              <span class='x-red'>*</span>接口名
+            </label>
+            <div class="layui-input-block">
+
+              <input type="text" name="joggle_name" autocomplete="off" placeholder="5个左右,8汉字以内,用英文,隔}"
+                     class="layui-input" lay-verify="required" value="{$data.joggle_name|default=''}">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+              接口描述
+            </label>
+            <div class="layui-input-block">
+
+              <textarea type="text" name="joggle_description" autocomplete="off" placeholder="5个左右,8汉字以内,用英文,隔}"
+                        class="layui-input" lay-verify="required">{$data.joggle_description|default=''}</textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+              <span class='x-red'>*</span>URL
+            </label>
+            <div class="layui-input-block">
+
+              <input type="text" name="url" autocomplete="off" placeholder="5个左右,8汉字以内,用英文,隔}"
+                     class="layui-input" lay-verify="required" value="{$data.url|default=''}">
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <input type="hidden" value="{$id}" name="id">
+            <button class="layui-btn" lay-submit="" lay-filter="*">
+              保存
+            </button>
+          </div>
+
+        </form>
+        <div style="height:100px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{/block}
+
+{block name="body_js"}
+<script src="__STATIC_ADMIN__/js/x-layui.js" charset="utf-8"></script>
+<script src="__STATIC_ADMIN__/js/formSelects-v4.js" charset="utf-8"></script>
+<script>
+  layui.use(['element','layer','form','formSelects'], function(){
+    $ = layui.jquery;//jquery
+    lement = layui.element;//面包导航
+    layer = layui.layer;//弹出层
+    form = layui.form;
+    // formSelects = layui.formSelects;
+
+    //监听提交
+    form.on('submit(*)', function(data){
+      if(data.field['name'] ==""){
+        layer.msg("文章分类名称不能为空！",{icon:5,time:2000});
+        return false;
+      }
+      console.log(data.field);
+      $.ajax({
+        type:"post",
+        url:"add_edit",
+        data:data.field,
+        dataType:"json",
+        success:function (data) {
+          layer.msg(data.msg,{icon:1,time:1000});
+          if(data.status==200){
+            layer.msg(data.msg,{icon:1,time:1000});
+            setTimeout(function(){
+              window.parent.location.reload();
+              var index = parent.layer.getFrameIndex(window.name);
+              parent.layer.close(index);
+            },1000);
+            return false;
+          }else{
+            layer.msg(data.info,{icon:5,time:2000});return false;
+          }
+        }
+      });
+      return false;
+    });
+    // 绑定第一级选择元素
+    form.on('select(select_level1)', function(data) {
+
+      $.ajax({
+        type:'post',
+        url:'two_select',
+        data:{'id':data.value},
+        dataType: 'json',
+        success:function (data) {
+          newOptions = '';
+          for (let i = 0; i < data.data.length; i++) {
+            newOptions += `<option value="${data.data[i].id}">${data.data[i].class_name}</option>`;
+          }
+
+          $('#select_level2').html(newOptions);
+          form.render('select');
+        }
+      });
+
+    });
+  })
+</script>
+
+{/block}

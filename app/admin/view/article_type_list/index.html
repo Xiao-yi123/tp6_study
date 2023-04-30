@@ -36,35 +36,36 @@
             </div>
         </div>
     </form>
-    <xblock>
-        <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge">{$article_types|count}</span> 条</span></xblock>
 
     <table class="layui-table" id="article_table" lay-filter="article_table">
 
     </table>
 
-    <div id="page"></div>
 </div>
 <script type="text/html" id="artTool">
-    <button class="layui-btn layui-btn-danger" lay-event="add" onclick="delAll()">
+    <button class="layui-btn layui-btn-danger" lay-event="delSel">
         <i class="layui-icon">&#xe640;</i>
         批量删除
     </button>
-    <button class="layui-btn"  lay-event="delete"onclick="member_add('添加用户','member-add.html','600','500')">
+    <button class="layui-btn"  lay-event="add">
         <i class="layui-icon">&#xe608;</i>
         添加
     </button>
-    <span class="x-right" style="line-height:40px">共有数据：<span class="layui-badge">66</span> 条</span>
 </script>
 <script type="text/html" id="Hstatus">
-    <input type="checkbox" name="status" value="{{d.id}}"  lay-skin="switch" lay-text=禁用|启用" lay-filter="status" {{ d.status == 1 ? 'checked' : '' }}>
+    <span class="layui-btn {{ d.status == 0 ? 'layui-btn-danger' : 'layui-btn-normal' }} " > {{ d.status == 0 ? '已禁用' : '已启用' }}  </span>
 </script>
+
 <script type="text/html" id="operation">
-    <a title="删除" href="javascript:;" onClick="member_del(this,'{d.id}')"
-       style="text-decoration:none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-        </svg>
+    <a style="text-decoration:none" lay-event="stop" href="javascript:;" title="停用">
+        <i class="layui-icon">&#xe601;</i>
+    </a>
+    <a title="编辑" href="javascript:;" lay-event="edit" class="ml-5" style="text-decoration:none">
+        <i class="layui-icon">&#xe642;</i>
+    </a>
+
+    <a title="删除" href="javascript:;" lay-event="del"   style="text-decoration:none">
+        <i class="layui-icon">&#xe640;</i>
     </a>
 </script>
 {/block}
@@ -109,6 +110,7 @@
                 {field: 'id', title: 'ID'},
                 {field: 'class_name', title: '接口类型名', edit: 'text'},
                 {field: 'one_rank_id', title: '上级类型'},
+                {field: 'description', title: '描述'},
                 {field: 'number', title: '数量'},
                 {field: 'link', title: '描述'},
                 {field: 'create_date', title: '加入时间'},
@@ -116,7 +118,57 @@
                 {field: 'status', title: '状态', templet: '#Hstatus'},
                 {field: 'right', title: '操作', templet: '#operation', width: 100,},
             ]],
-            page: true
+            page: true,
+            limit:5
+        });
+        // 监听行工具事件
+        table.on('tool(article_table)', function(obj){
+            var data = obj.data;
+
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        type:"post",
+                        url:"ATL/del",
+                        data:data,
+                        dataType:"json",
+                        success:function (data) {
+                            if(data.code==200){
+                                layer.msg(data.msg,{icon:1,time:1000});
+                            }else{
+                                layer.msg(data.msg,{icon:5,time:2000});
+                            }
+                        },
+                    });
+                });
+            }
+            else if(obj.event === 'edit'){
+                x_admin_show("编辑",`ATL/add_edit?id=${data['id']}`,'500','600');
+            }
+            else if(obj.event === 'stop'){
+                if(data['status'] == 0){
+                    data['status'] = 1;
+                }else if(data['status'] == 1){
+                    data['status'] = 0;
+                }
+
+                $.ajax({
+                    type:"post",
+                    url:"ATL/stop",
+                    data:data,
+                    dataType:"json",
+                    success:function (res_data) {
+                        if(res_data.code==200){
+                            layer.msg(res_data.msg,{icon:1,time:1000});
+                            location.replace(location.href);
+                        }else{
+                            layer.msg(res_data.msg,{icon:5,time:2000});
+                        }
+                    },
+                });
+            }
         });
         //监听单元格编辑
         table.on('edit(article_table)', function(obj){
@@ -146,70 +198,52 @@
                 }
             });
         });
-        //监听状态操作
-        form.on('switch(status)', function (obj) {
-            obj.elem.disabled = true;
-            data = {
-                "id": this.value,
-                "status": 0
-            }
-            if (obj.elem.checked) {
-                data['stauts'] = 1
-            }
-            $.ajax({
-                type: "post",
-                url: "ATL/stop",
-                data: data,
-                dataType: "json",
-                success: function (data) {
-                    if (data.code == 200) {
-                        layer.msg(data.msg, {icon: 1, time: 1000});
-                        obj.elem.disabled = false;
-                    } else {
-                        layer.msg(data.msg, {icon: 5, time: 2000});
-                    }
-                },
-            });
+
+        //监听头部事件
+        table.on('toolbar(article_table)', function(obj){
+            switch(obj.event){
+                case 'add':
+                    layer.msg('添加');
+                    x_admin_show("添加",`ATL/add_edit?id=0`,'500','400');
+                    break;
+                case 'delSel':
+                    delSel()
+                    break;
+
+            };
         });
     });
 
     //批量删除提交
-    function delAll () {
+    function delSel () {
         layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-        });
-    }
-    /*用户-添加*/
-    function member_add(title,url,w,h){
-        x_admin_show(title,url,w,h);
-    }
+            data = table.checkStatus('article_table').data;
 
-    /*用户-删除*/
-    function member_del(obj,id){
-        layer.confirm('确认要删除吗？',{icon:3,title:'提示信息'},function(index){
-            //发异步删除数据
-            $.ajax( {
-                url:'ATL/del',
-                data: {"id":id},
-                type:'post',
-                dataType:'json',
-                success:function(ajax_data) {
-                    if(ajax_data.status == 200){
-                        layer.msg(ajax_data.msg,{icon:1,time:1000});
-                        // layer.msg('已删除!',{icon:1,time:1000});
-                        // location.reload();
+            ids = []
+            for(i = 0;i < data.length;i++){
+                ids.push(data[i]['id']);
+            }
+
+            $.ajax({
+                type:"post",
+                url:"ATL/del_sel",
+                data:{'ids':ids},
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    if(data.code==200){
+                        layer.msg(data.msg,{icon:1,time:1000});
                     }else{
-                        alert(ajax_data.msg);
+                        layer.msg(data.msg,{icon:5,time:2000});
                     }
                 },
-                error : function(jqXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
-                }
             });
 
         });
     }
+
+
 </script>
 
 

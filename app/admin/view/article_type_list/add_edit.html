@@ -18,7 +18,7 @@
               <span class='x-red'>*</span>文章类型
             </label>
             <div class="layui-input-block">
-              <select name="cid">
+              <select name="rank">
                 <option value="">--顶级分类--</option>
                 {volist name="type" id="type_value"}
                 <option value="{$type_value.id}">{$type_value.class_name}</option>
@@ -32,8 +32,8 @@
               <span class='x-red'>*</span>类型名称
             </label>
             <div class="layui-input-block">
-              <input type="hidden" value="{$class_id}" name="class_id">
-              <input type="text" name="name" autocomplete="off" placeholder="5个左右,8汉字以内,用英文,隔}"
+              <input type="hidden" value="{$class_id}" name="id">
+              <input type="text" name="class_name" autocomplete="off" placeholder="5个左右,8汉字以内,用英文,隔}"
                      class="layui-input" lay-verify="required" value="{$con.class_name|default=''}">
             </div>
           </div>
@@ -44,7 +44,7 @@
               <span class='x-red'>*</span>描述
             </label>
             <div class="layui-input-block">
-              <textarea placeholder="请输入内容" class="layui-textarea" name="info">{$con.link|default=''}</textarea>
+              <textarea placeholder="请输入内容" class="layui-textarea" name="description">{$con.description|default=''}</textarea>
             </div>
           </div>
           <div class="layui-form-item">
@@ -75,11 +75,11 @@
         layer.msg("文章分类名称不能为空！",{icon:5,time:2000});
         return false;
       }
-
+      console.log(data.field);
 
       $.ajax({
         type:"post",
-        url:"edit",
+        url:"add_edit",
         data:data.field,
         dataType:"json",
         success:function (data) {

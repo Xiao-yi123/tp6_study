@@ -7,24 +7,26 @@
 {/block}
 
 {block name="main"}
-<!-- Add version form -->
+
 <div id="addForm">
   <form class="layui-form " action="">
     <div class="layui-form-item">
-      <label class="layui-form-label">版本号</label>
+      <label class="layui-form-label">用户名</label>
       <div class="layui-input-block">
-        <input type="hidden" name="id" value="{$con.version|default='0'}">
-        <input type="text" name="version" required lay-verify="number|dot" value="{$con.version|default=''}" placeholder="请输入版本号" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">版本描述</label>
-      <div class="layui-input-block">
-        <textarea name="desc" required  placeholder="请输入版本描述" class="layui-textarea">{$con.description|default=""}</textarea>
+        <input type="text" name="username" required value="{$data.username|default=''}" disabled autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
+      <label class="layui-form-label">昵称</label>
       <div class="layui-input-block">
+
+        <input type="text" name="nickname" required value="{$data.nickname|default=''}" placeholder="请输入昵称" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <input type="hidden" name="id" value="{$data.id|default='0'}">
         <button class="layui-btn" lay-submit="" lay-filter="*">提交</button>
       </div>
     </div>
@@ -45,15 +47,16 @@
     //监听提交
     form.on('submit(*)', function(data){
       console.log(data.field);
+
       $.ajax({
         type:"post",
-        url:"edit",
+        url:"add_edit",
         data:data.field,
         dataType:"json",
         success:function (data) {
           layer.msg(data.msg,{icon:1,time:1000});
           console.log(data);
-          if(data.status==200){
+          if(data.code==200){
             layer.msg(data.msg,{icon:1,time:1000});
             setTimeout(function(){
               window.parent.location.reload();

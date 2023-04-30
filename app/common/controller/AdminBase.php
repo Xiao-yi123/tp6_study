@@ -61,5 +61,17 @@ class AdminBase extends BaseController
     {
         return AdminModel::where("id", $uid)->find();
     }
-
+    /**
+     * 随机生成密码盐
+     * @param $uid
+     * @return string|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    protected function get_salt($uid)
+    {
+        $salt = base64_encode(openssl_random_pseudo_bytes(16));
+        return $salt;
+    }
 }
