@@ -9,7 +9,6 @@ use think\facade\Db;
 
 class Index extends IndexBase
 {
-
     public function index(Request $request)
     {
 
@@ -25,7 +24,6 @@ class Index extends IndexBase
         return $this->fetch("",$result);
     }
 
-//    分类页面
     public function class_page(Request $request){
 
         if($request->isGet()){
@@ -34,26 +32,16 @@ class Index extends IndexBase
             }
 
             $v = $request->get("v");
-            $joggle = Joggle::scope("status")->
-                    where([
-                "classify_id"   =>  $v
-            ])->select();
-            $one_nav_name = Classify::where([
-                "id"     =>  $v,
-                "status" => 1,
-                ])->find()->class_name;
-            $tow_nav_data = Classify::where([
-                "one_rank_id"     =>  $v,
-                "status" =>  1,
-            ])->select();
+            $joggle = Joggle::scope("status")->where("classify_id",$v)->select();
+            $name = Classify::scope("status")->where("id", $v)->find()->name;
+            $tow_nav_data = Classify::scope("status")->where("rank",$v)->select();
 
             $result = [
                 "WebConfig" => $request->WebConfig,
                 "Joggle"    =>  $joggle,
-                "name"      =>  $one_nav_name,
+                "name"      =>  $name,
                 "tow_nav_data"  => $tow_nav_data
             ];
-
             return $this->fetch("",$result);
         }
 
@@ -61,8 +49,6 @@ class Index extends IndexBase
 
     public function captcha($id = '')
     {
-//        phpinfo();
-
         return captcha($id);
     }
 }

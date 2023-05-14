@@ -1,3 +1,4 @@
+分类的页面
 {extend name="Base_template/base" /}
 
 {block name="head_css_js"}
@@ -57,38 +58,27 @@
 {block name="header"}
 {/block}
 
-{block name="middle_part"}
-{/block}
+
 
 {block name="main-content"}
-
 <div class="row">
-    <h4 class="text-gray text-lg my-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag"
-             viewBox="0 0 16 16">
-            <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"></path>
-            <path
-                    d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z">
-            </path>
-        </svg>
-        {$name}
-    </h4>
+    {include file="index/class_page/title"/}
+
     {notempty name='tow_nav_data'}
-    <div class="d-flex flex-fill flex-tab align-items-center">
+    <section class="d-flex flex-fill flex-tab align-items-center">
         <div class="slider_menu">
             <ul class="nav nav-pills  menu overflow-x-auto bg-secondary">
                 {foreach $tow_nav_data as $key=>$vo }
                 <li class="pagenumber nav-item">
-                    <a class="nav-link  link-light" href="#">{$vo.class_name}</a>
+                    <a class="nav-link  link-light" href="#">{$vo.name}</a>
                 </li>
                 {/foreach}
-
             </ul>
         </div>
-    </div>
+    </section>
     {/notempty}
     {foreach $Joggle as $key=>$vo }
-        {include file="Base_template/nav_card"/}
+        {include file="public_module/card"/}
     {/foreach}
 </div>
 {/block}

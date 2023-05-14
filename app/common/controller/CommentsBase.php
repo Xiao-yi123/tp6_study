@@ -7,8 +7,21 @@ use app\BaseController;
 
 class CommentsBase extends BaseController
 {
+    /**
+     * 评论相关的所有数据
+     * @var array
+     */
     protected $comments = [];
+    /**
+     * 返回的结果
+     * @var array
+     */
     protected $reqult = [];
+
+    /**
+     * 判断是否是iframe标签请求来的
+     * @return bool
+     */
     public function if_iframe(){
         if ($this->request->header('X-Requested-With') !== 'XMLHttpRequest' && strpos($this->request->header('Referer'), '127.0.0.1') === false) {
             return true;
@@ -17,6 +30,11 @@ class CommentsBase extends BaseController
             return false;
         }
     }
+
+    /**
+     *  获得3级评论，并从评论数据中删除查到的评论
+     * @return void
+     */
     public function three_comments(){
         if(!$this->comments){
             return;
@@ -33,11 +51,17 @@ class CommentsBase extends BaseController
             }
 
         }
-        return $this->three_comments($this->comments,$this->reqult);
+        return $this->three_comments();
     }
-    public function display_comments($comments, $parent_id = 0, $level = 0) {
 
+    /**
+     * 显示所有评论内容
+     * @param $comments 评论相关所有数据
+     * @return array|mixed
+     */
+    public function display_comments($comments) {
         $this->comments = $comments;
+//        获得1级评论，并从评论数据中删除查到的评论
         foreach ($this->comments as $key=>$value){
             if($value['reply_type'] == 1){
                 $this->reqult[] = $value;
@@ -45,6 +69,7 @@ class CommentsBase extends BaseController
             }
 
         }
+//        获得2级评论，并从评论数据中删除查到的评论
         foreach ($this->reqult as $key=>$value){
             foreach ($this->comments as $key1=>$value1){
 
@@ -54,8 +79,8 @@ class CommentsBase extends BaseController
                 }
             }
         }
-
-        $this->three_comments($this->comments,$this->reqult);
+//        获得3级评论，并从评论数据中删除查到的评论
+        $this->three_comments();
         return $this->reqult;
     }
 

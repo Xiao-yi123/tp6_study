@@ -25,6 +25,8 @@ class Classify  extends Model
     public function scopeStatus($query){
         $query->where('status', 1)->select();
     }
+
+
 //    新增方法
     public function Fadd($data){
         $this->save($data);

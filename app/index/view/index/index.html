@@ -1,4 +1,6 @@
+首页
 {extend name="Base_template/base" /}
+头部的CSS跟js
 {block name="head_css_js"}
 <style>
     .b_per{
@@ -9,7 +11,7 @@
     }
 </style>
 {/block}
-
+引入中间的部分
 {block name="middle_part"}
     {include file="index/middle_part"/}
 {/block}
@@ -19,7 +21,7 @@
     <nav class="nav nav-tabs border-bottom-0">
         <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
             {foreach $Classify as $key=>$vo }
-                <a class="btn btn-info rounded btn-sm mx-2" href="#" value="{$vo.id}">{$vo.class_name}</a>
+                <a class="btn btn-info rounded btn-sm mx-2" href="#" value="{$vo.id}">{$vo.name}</a>
             {/foreach}
 
         </div>
